@@ -1,4 +1,3 @@
-export { default as postContainer } from './post.container'
 export type { default as IPostService } from './post.service.interface'
 export type { PostData, PostMetadata } from './post'
 export { default as Post } from './components/post'

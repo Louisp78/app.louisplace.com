@@ -1,10 +1,10 @@
-import { PostData } from '../post'
 import { Metadata } from 'next'
+import { PostData } from '../post'
+import PostRepositoryContainer from './post-repository.container'
 import IPostService from './post.service.interface'
-import postContainer from './post.container'
 
 export default class PostService implements IPostService {
-	private repository = postContainer.repository()
+	private repository = PostRepositoryContainer.repository()
 	private postsCache: PostData[] | null = null
 
 	public async getPosts(): Promise<PostData[]> {
