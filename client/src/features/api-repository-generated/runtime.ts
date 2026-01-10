@@ -86,7 +86,7 @@ export class Configuration {
 	}
 }
 
-export const DefaultConfig = new Configuration()
+export const DefaultConfig = new Configuration({ credentials: 'include' })
 
 /**
  * This is the base class for all generated API classes.

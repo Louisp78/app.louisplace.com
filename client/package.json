@@ -13,7 +13,8 @@
     "lint_format:check": "pnpm prettier:check && pnpm lint",
     "format": "pnpm run prettier:fix && pnpm run lint:fix",
     "test": "jest",
-    "api-generate": "pnpm openapi-generator-cli generate -i $NEXT_PUBLIC_BACKEND_URL/v3/api-docs -g typescript-fetch -o ./src/features/api-repository-generated"
+    "api-generate": "pnpm openapi-generator-cli generate -i $NEXT_PUBLIC_BACKEND_URL/v3/api-docs -g typescript-fetch -o ./src/features/api-repository-generated",
+    "api-patch": "node scripts/patch-openapi-runtime.js"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
