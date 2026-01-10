@@ -34,6 +34,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getUserInfos() {
+        System.out.println("Getting user info");
         String email = sessionService.getPrincipal();
         UserEntity user = userService.getUserInfo(email).orElse(null);
         if (user == null) {
