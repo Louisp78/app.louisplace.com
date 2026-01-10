@@ -8,7 +8,5 @@ import lombok.Data;
 public class AuthUserInfoDTO {
     private String firstName;
     private String lastName;
-    private String username;
     private String email;
-
 }

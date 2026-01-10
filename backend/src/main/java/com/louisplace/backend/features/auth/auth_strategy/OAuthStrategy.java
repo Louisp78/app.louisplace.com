@@ -24,9 +24,6 @@ public class OAuthStrategy implements IAuthStragegy {
         private static final String PARAM_GRANT_TYPE = "grant_type";
         private static final String GRANT_TYPE_AUTH_CODE = "authorization_code";
         private static final String FIELD_ACCESS_TOKEN = "access_token";
-        private static final String FIELD_FIRST_NAME = "first_name";
-        private static final String FIELD_LAST_NAME = "last_name";
-        private static final String FIELD_USERNAME = "username";
 
         private static final String FIELD_EMAIL = "email";
 
@@ -67,9 +64,8 @@ public class OAuthStrategy implements IAuthStragegy {
                                 .block();
 
                 AuthUserInfoDTO authUserInfo = new AuthUserInfoDTO(
-                                (String) userInfo.get(FIELD_FIRST_NAME),
-                                (String) userInfo.get(FIELD_LAST_NAME),
-                                (String) userInfo.get(FIELD_USERNAME),
+                                (String) userInfo.get(provider.getFirstNameField()),
+                                (String) userInfo.get(provider.getLastNameField()),
                                 (String) userInfo.get(FIELD_EMAIL));
                 return authUserInfo;
         }

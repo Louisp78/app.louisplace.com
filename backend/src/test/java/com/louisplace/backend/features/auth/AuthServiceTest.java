@@ -44,7 +44,6 @@ class AuthServiceTest {
                 AuthUserInfoDTO mockUserInfo = new AuthUserInfoDTO(
                                 "GoogleFirstName",
                                 "GoogleLastName",
-                                "GoogleUsername",
                                 "test@google.com");
 
                 when(strategy.authenticate(eq("google"), eq(authorizationCode)))
@@ -68,7 +67,6 @@ class AuthServiceTest {
                 AuthUserInfoDTO mockUserInfo = new AuthUserInfoDTO(
                                 "GitHubFirstName",
                                 "GitHubLastName",
-                                "GitHubUsername",
                                 "test@github.com");
 
                 when(strategy.authenticate(eq("github"), eq(authorizationCode)))
