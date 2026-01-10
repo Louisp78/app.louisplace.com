@@ -1,9 +1,9 @@
 import { UserControllerApi } from '@/features/api-repository-generated'
-import { useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 export default function useMe() {
-	return useMutation({
-		mutationKey: ['me'],
-		mutationFn: async () => new UserControllerApi().getUserInfos(),
+	return useQuery({
+		queryKey: ['me'],
+		queryFn: async () => new UserControllerApi().getUserInfos(),
 	})
 }
