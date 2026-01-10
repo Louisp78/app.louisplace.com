@@ -12,12 +12,7 @@
 		"author": "Louis Place",
 		"publishedAt": "2025-12-20T00:00:00Z",
 		"category": "Product Development",
-		"tags": [
-			"BDD",
-			"TDD",
-			"Product Engineering",
-			"Software Development"
-		],
+		"tags": ["BDD", "TDD", "Product Engineering", "Software Development"],
 		"estimatedReadingTimeMinutes": 6
 	},
 	"content": [
@@ -60,7 +55,7 @@
 			"type": "spaced-content",
 			"data": {
 				"content": "Each scenario defines precise expected behaviors, covering edge cases and errors. Once BDD scenarios are written, **TDD (Test-Driven Development)** can turn them into automated tests. This creates a feedback loop: Product defines the behavior → BDD scenarios → Developers write tests based on scenarios → TDD → Implementation is guided and validated by tests."
-				}
+			}
 		},
 		{
 			"type": "spaced-content",
@@ -86,7 +81,7 @@
 							"data": {
 								"text": "TDD Study Nagappan et al., 2008 - Microsoft Research :"
 							}
-						} 
+						}
 					}
 				},
 				"items": [

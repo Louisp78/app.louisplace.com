@@ -1,13 +1,11 @@
-
 # UserUpdateDTO
-
 
 ## Properties
 
-Name | Type
------------- | -------------
-`firstName` | string
-`lastName` | string
+| Name        | Type   |
+| ----------- | ------ |
+| `firstName` | string |
+| `lastName`  | string |
 
 ## Example
 
@@ -16,8 +14,8 @@ import type { UserUpdateDTO } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "firstName": null,
-  "lastName": null,
+	firstName: null,
+	lastName: null,
 } satisfies UserUpdateDTO
 
 console.log(example)
@@ -32,5 +30,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -1,43 +1,36 @@
 # UserControllerApi
 
-All URIs are relative to *http://localhost:8080*
+All URIs are relative to _http://localhost:8080_
 
-| Method | HTTP request | Description |
-|------------- | ------------- | -------------|
-| [**getUserInfos**](UserControllerApi.md#getuserinfos) | **GET** /users/me |  |
-| [**updateUserInfos**](UserControllerApi.md#updateuserinfos) | **PUT** /users/me |  |
-
-
+| Method                                                      | HTTP request      | Description |
+| ----------------------------------------------------------- | ----------------- | ----------- |
+| [**getUserInfos**](UserControllerApi.md#getuserinfos)       | **GET** /users/me |             |
+| [**updateUserInfos**](UserControllerApi.md#updateuserinfos) | **PUT** /users/me |             |
 
 ## getUserInfos
 
 > UserDTO getUserInfos()
 
-
-
 ### Example
 
 ```ts
-import {
-  Configuration,
-  UserControllerApi,
-} from '';
-import type { GetUserInfosRequest } from '';
+import { Configuration, UserControllerApi } from ''
+import type { GetUserInfosRequest } from ''
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
-  const api = new UserControllerApi();
+	console.log('🚀 Testing  SDK...')
+	const api = new UserControllerApi()
 
-  try {
-    const data = await api.getUserInfos();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
+	try {
+		const data = await api.getUserInfos()
+		console.log(data)
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 // Run the test
-example().catch(console.error);
+example().catch(console.error)
 ```
 
 ### Parameters
@@ -57,20 +50,17 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: `*/*`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
 
 ## updateUserInfos
 
 > UserDTO updateUserInfos(dataToUpdate)
-
-
 
 ### Example
 
@@ -104,10 +94,9 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **dataToUpdate** | [](.md) |  | [Defaults to `undefined`] |
+| Name             | Type    | Description | Notes                     |
+| ---------------- | ------- | ----------- | ------------------------- |
+| **dataToUpdate** | [](.md) |             | [Defaults to `undefined`] |
 
 ### Return type
 
@@ -122,11 +111,10 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: `*/*`
 
-
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
