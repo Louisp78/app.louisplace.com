@@ -15,6 +15,7 @@ const TEXT = {
 		iconAlt: 'GitHub Logo',
 	},
 	login: {
+		signIn: 'Sign in',
 		googleButton: 'Sign in with Google',
 		githubButton: 'Sign in with GitHub',
 	},
