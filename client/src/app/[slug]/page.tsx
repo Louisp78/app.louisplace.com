@@ -1,4 +1,5 @@
-import { Post, postContainer, PostData } from '@/features/post'
+import { Post, PostData } from '@/features/post'
+import { postContainer } from '@/features/post/index.server'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
