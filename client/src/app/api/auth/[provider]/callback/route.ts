@@ -28,7 +28,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ prov
 		return NextResponse.redirect(new URL('/?error=auth_failed', request.url))
 	}
 
-	const redirectResponse = NextResponse.redirect(new URL('/', request.url))
+	const redirectResponse = NextResponse.redirect(new URL('/?login=success', request.url))
 
 	const setCookieHeaders = response.headers.getSetCookie()
 	setCookieHeaders.forEach((cookie) => {
