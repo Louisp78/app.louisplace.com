@@ -1,6 +1,11 @@
-#! /bin/sh
-SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)"
-cd "$SCRIPT_DIR" || exit 1 &&
-git pull origin main &&
-docker compose up -d --build &&
-echo '✅ louisplace.com is well deployed !'
+#!/bin/sh
+set -e
+cd "$(dirname "$0")"
+
+echo "Pulling latest images..."
+docker compose pull client backend
+
+echo "Restarting services..."
+docker compose up -d
+
+echo "Deployment complete!"
