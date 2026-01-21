@@ -63,14 +63,24 @@ jobs:
           ${{ secrets.ENV_OAUTH }}
           EOF
 
-      - name: Copy docker-compose and env files to VPS
+      - name: Copy docker-compose and dockerfiles to VPS
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose.yml,env_files/backend/.env,env_files/.env.db,env_files/.env.oauth"
+          source: "docker-compose.yml,apache/,db/"
+          target: "~/app/"
+
+      - name: Copy env files to VPS
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "env_files/backend/.env,env_files/.env.db,env_files/.env.oauth"
           target: "~/app/"
           strip_components: 1
 
