@@ -48,6 +48,32 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env files
+        run: |
+          mkdir -p env_files/backend
+          cat > env_files/backend/.env << 'EOF'
+          ${{ secrets.BACKEND_ENV }}
+          EOF
+          cat > env_files/.env.db << 'EOF'
+          ${{ secrets.ENV_DB }}
+          EOF
+          cat > env_files/.env.oauth << 'EOF'
+          ${{ secrets.ENV_OAUTH }}
+          EOF
+
+      - name: Copy docker-compose and env files to VPS
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "docker-compose.yml,env_files/backend/.env,env_files/.env.db,env_files/.env.oauth"
+          target: "~/louisplace.com/"
+          strip_components: 1
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
         with:
@@ -55,4 +81,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: ~/louisplace.com/deploy.sh
+          script: |
+            cd ~/louisplace.com
+            echo "Pulling latest images..."
+            docker compose pull client backend
+            echo "Restarting services..."
+            docker compose up -d
+            echo "Deployment complete!"
