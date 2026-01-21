@@ -71,7 +71,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "docker-compose.yml,env_files/backend/.env,env_files/.env.db,env_files/.env.oauth"
-          target: "~/louisplace.com/"
+          target: "~/app/"
           strip_components: 1
 
       - name: Deploy to VPS
@@ -82,7 +82,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/louisplace.com
+            cd ~/app
+            echo "Logging in to Docker Hub..."
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             echo "Pulling latest images..."
             docker compose pull client backend
             echo "Restarting services..."
