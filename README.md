@@ -30,13 +30,7 @@ Edit those copies to override any values you need (database credentials, OAuth s
 
 ## Run (recommended)
 
-Use the provided deploy script to pull the latest main branch and build with Docker Compose:
-
-```bash
-./deploy.sh
-```
-
-This runs `docker compose up -d --build` and brings the frontend + backend up in detached mode.
+Runs `docker compose up -d --build` and brings the frontend + backend up in detached mode.
 
 ## Run locally (dev/debug)
 
