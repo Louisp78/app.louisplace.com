@@ -96,7 +96,7 @@ jobs:
             echo "Logging in to Docker Hub..."
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             echo "Pulling latest images..."
-            docker compose pull client backend
+            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} docker compose pull client backend
             echo "Restarting services..."
             docker compose up -d
             echo "Deployment complete!"
