@@ -34,12 +34,12 @@ const eslintConfig = [
 					patterns: [
 						{
 							group: [
-								'@/features/*/*',
-								'!@/features/*/index.client',
-								'!@/features/*/index.server',
-								'!@/features/*/index',
+								'@/plugins/*/*',
+								'!@/plugins/*/index.client',
+								'!@/plugins/*/index.server',
+								'!@/plugins/*/index',
 							],
-							message: 'Import from feature barrel file (@/features/*/index) instead.',
+							message: 'Import from feature barrel file (@/plugins/*/index) instead.',
 						},
 					],
 				},
