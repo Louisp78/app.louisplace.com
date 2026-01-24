@@ -1,7 +1,7 @@
 'use client'
 
+import { useMe } from '@/plugins/user'
 import { createContext, useContext } from 'react'
-import useMe from './hooks/useMe'
 import { UserDTO } from '../api-repository-generated'
 
 type AuthContextType = {
