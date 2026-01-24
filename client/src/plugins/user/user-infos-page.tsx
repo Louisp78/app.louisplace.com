@@ -1,28 +1,28 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import TEXT from '@/constants/text'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/auth.context'
+import { useLogout } from './hooks/useLogout'
+import useUpdateUserInfos from './hooks/useUpdateUserInfos'
 
 interface FormData {
 	firstName: string
 	lastName: string
-	email: string
 }
 
 export default function UserInfosPage() {
 	const { user } = useAuth()
+	const { mutate: updateUserInfos, isPending: loading } = useUpdateUserInfos()
+	const { mutate: logout, isPending: loggingOut } = useLogout()
 	const [formData, setFormData] = useState<FormData>({
 		firstName: '',
 		lastName: '',
-		email: '',
 	})
 	const [originalData, setOriginalData] = useState<FormData>({
 		firstName: '',
 		lastName: '',
-		email: '',
 	})
-	const [loading, setLoading] = useState(false)
 	const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
 	useEffect(() => {
@@ -30,7 +30,6 @@ export default function UserInfosPage() {
 			const userData: FormData = {
 				firstName: user.firstName || '',
 				lastName: user.lastName || '',
-				email: user.email || '',
 			}
 			setFormData(userData)
 			setOriginalData(userData)
@@ -47,45 +46,19 @@ export default function UserInfosPage() {
 		}))
 	}
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		setLoading(true)
 		setMessage(null)
 
-		try {
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/${user?.id}`,
-				{
-					method: 'PUT',
-					body: JSON.stringify(formData),
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			)
-
-			if (response.ok) {
+		updateUserInfos(formData, {
+			onSuccess: () => {
 				setOriginalData(formData)
 				setMessage({ type: 'success', text: TEXT.userInfoPage.successUpdate })
-				setLoading(false)
-			} else {
+			},
+			onError: () => {
 				setMessage({ type: 'error', text: TEXT.userInfoPage.errorUpdate })
-				setLoading(false)
-			}
-		} catch {
-			setMessage({ type: 'error', text: TEXT.userInfoPage.errorUpdate })
-			setLoading(false)
-		}
-	}
-
-	const handleLogout = async () => {
-		try {
-			await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`, {
-				method: 'POST',
-			})
-		} catch {
-			// Handle logout error
-		}
+			},
+		})
 	}
 
 	return (
@@ -114,21 +87,13 @@ export default function UserInfosPage() {
 						onChange={handleChange}
 					/>
 				</div>
-				<div>
-					<label htmlFor="email">Email</label>
-					<input
-						id="email"
-						name="email"
-						type="email"
-						value={formData.email}
-						onChange={handleChange}
-					/>
-				</div>
 				<button type="submit" disabled={loading || !isFormDirty}>
 					Submit
 				</button>
 			</form>
-			<button onClick={handleLogout}>Logout</button>
+			<button disabled={loggingOut} onClick={() => logout()}>
+				Logout
+			</button>
 			{message && <div>{message.text}</div>}
 		</div>
 	)
