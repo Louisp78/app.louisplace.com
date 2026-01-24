@@ -1,4 +1,4 @@
-import { authContainer, AuthProviderEnum } from '@/features/auth/index.server'
+import { authContainer, AuthProviderEnum } from '@/plugins/auth/index.server'
 import { NextResponse } from 'next/server'
 
 const PARAM_CODE = 'code'

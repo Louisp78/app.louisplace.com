@@ -1,4 +1,4 @@
-import { authContainer, AuthProviderEnum } from '@/features/auth/index.server'
+import { authContainer, AuthProviderEnum } from '@/plugins/auth/index.server'
 import { NextResponse } from 'next/server'
 
 export async function GET(_: Request, { params }: { params: Promise<{ provider: string }> }) {

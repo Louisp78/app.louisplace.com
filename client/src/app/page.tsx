@@ -1,5 +1,5 @@
-import { PostCard, PostData, PostMetadata } from '@/features/post'
-import { postServiceContainer } from '@/features/post/index.server'
+import { PostCard, PostData, PostMetadata } from '@/plugins/post'
+import { postServiceContainer } from '@/plugins/post/index.server'
 import { addDays } from '@/utils/date'
 
 export default async function PostsPage() {

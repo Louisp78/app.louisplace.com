@@ -1,5 +1,5 @@
-import { Post, PostData } from '@/features/post'
-import { postServiceContainer } from '@/features/post/index.server'
+import { Post, PostData } from '@/plugins/post'
+import { postServiceContainer } from '@/plugins/post/index.server'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
