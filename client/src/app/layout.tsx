@@ -1,9 +1,9 @@
 import AppBar from '@/components/app-bar/app-bar'
 import Footer from '@/components/footer'
-import QueryClientCustomProvider from '@/config/query-client-custom-provider'
 import TEXT from '@/constants/text'
-import { AuthProvider } from '@/plugins/auth/index.client'
 import fontService from '@/font/font.service'
+import { QueryClientCustomProvider } from '@/plugins/api-config'
+import { AuthProvider } from '@/plugins/auth/index.client'
 import type { Metadata } from 'next'
 import './globals.css'
 
