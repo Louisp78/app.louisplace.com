@@ -26,7 +26,11 @@ const eslintConfig = [
 			},
 		},
 		rules: {
-			'no-console': 'error',
+			'no-console': [
+				'warn', {
+					allow: ['warn', 'error'],
+				},
+			],
 			'prettier/prettier': 'error',
 			'no-restricted-imports': [
 				'error',
@@ -38,6 +42,7 @@ const eslintConfig = [
 								'!@/plugins/*/index.client',
 								'!@/plugins/*/index.server',
 								'!@/plugins/*/index',
+								'!@/plugins/api-repository-generated/**',
 							],
 							message: 'Import from feature barrel file (@/plugins/*/index) instead.',
 						},
