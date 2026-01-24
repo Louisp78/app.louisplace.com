@@ -1,8 +1,17 @@
 import '@testing-library/jest-dom'
+import { waitFor } from '@testing-library/react'
 
-import PostsPage from '@/app/page'
+import AppBar from '@/components/app-bar/app-bar'
 import { HttpStatus } from '@/utils/http-status'
 import { renderWithProviders } from './test-utils'
+
+const userData = {
+	id: 1,
+	firstName: 'Louis',
+	lastName: 'Place',
+	email: 'example@example.com',
+	username: 'llouisp',
+}
 
 describe('Auth of Posts Page', () => {
 	beforeEach(() => {
@@ -10,27 +19,35 @@ describe('Auth of Posts Page', () => {
 			Promise.resolve({
 				status: 200,
 				ok: true,
-				json: () => Promise.resolve({}),
+				json: () => Promise.resolve(userData),
 			} as Response)
 		) as jest.Mock
 	})
 
-	test('should display user-info icon when user is logged in', () => {
-		const screen = renderWithProviders(<PostsPage />)
+	test('should display user firstName when user is logged in', async () => {
+		const screen = renderWithProviders(<AppBar />)
 
-		expect(screen.getByTestId('user-info-icon')).toBeInTheDocument()
+		await waitFor(() => {
+			expect(screen.getByText(`Hello, ${userData.firstName}`)).toBeInTheDocument()
+		})
 	})
 
-	test('should not display user-info icon when user is not logged in', () => {
+	test('should not display user firstName when user is not logged in', async () => {
 		global.fetch = jest.fn(() =>
 			Promise.resolve({
 				status: HttpStatus.Unauthorized,
 				ok: false,
+				json: () => Promise.reject(new Error('Unauthorized')),
 			} as Response)
 		) as jest.Mock
 
-		const screen = renderWithProviders(<PostsPage />)
+		const screen = renderWithProviders(<AppBar />)
 
-		expect(screen.queryByTestId('user-info-icon')).toBeNull()
+		await waitFor(
+			() => {
+				expect(screen.queryByText(`Hello, ${userData.firstName}`)).not.toBeInTheDocument()
+			},
+			{ timeout: 3000 }
+		)
 	})
 })
