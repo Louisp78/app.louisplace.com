@@ -1,1 +1,5 @@
 export { default as UserInfosPage } from './user-infos-page'
+export { useLogout } from './hooks/useLogout'
+export { default as useUpdateUserInfos } from './hooks/useUpdateUserInfos'
+export { USER_KEY } from './hooks/useMe'
+export { default as useMe } from './hooks/useMe'
