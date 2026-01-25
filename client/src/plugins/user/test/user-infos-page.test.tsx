@@ -19,11 +19,10 @@ describe('User Info Page', () => {
 	})
 
 	test('should display user information correctly', async () => {
-		const { container } = renderWithProviders(<UserInfosPage />)
+		const screen = renderWithProviders(<UserInfosPage />)
 
 		await waitFor(() => {
-			expect(container.textContent).toContain(userData.firstName)
-			expect(container.textContent).toContain(userData.lastName)
+			expect(screen.getByText(new RegExp(userData.firstName))).toBeInTheDocument()
 		})
 	})
 
@@ -32,7 +31,7 @@ describe('User Info Page', () => {
 
 		const firstNameInput = screen.getByLabelText('First Name')
 		const lastNameInput = screen.getByLabelText('Last Name')
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		expect(firstNameInput).toBeInTheDocument()
 		expect(lastNameInput).toBeInTheDocument()
@@ -44,7 +43,7 @@ describe('User Info Page', () => {
 
 		const firstNameInput = screen.getByLabelText('First Name')
 		const lastNameInput = screen.getByLabelText('Last Name')
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		fireEvent.change(firstNameInput, { target: { value: 'NewFirstName' } })
 		fireEvent.change(lastNameInput, { target: { value: 'NewLastName' } })
@@ -61,25 +60,28 @@ describe('User Info Page', () => {
 		)
 	})
 
-	test('should disconnect user when clicking logout button', () => {
+	test('should disconnect user when clicking logout button', async () => {
 		const screen = renderWithProviders(<UserInfosPage />)
 
-		const logoutButton = screen.getByRole('button', { name: /logout/i })
+		await waitFor(() => {
+			const logoutButton = screen.getByRole('button', { name: /logout/i })
+			fireEvent.click(logoutButton)
+		})
 
-		fireEvent.click(logoutButton)
-
-		expect(global.fetch).toHaveBeenCalledWith(
-			expect.any(String),
-			expect.objectContaining({
-				method: 'POST',
-			})
-		)
+		await waitFor(() => {
+			expect(global.fetch).toHaveBeenCalledWith(
+				expect.any(String),
+				expect.objectContaining({
+					method: 'POST',
+				})
+			)
+		})
 	})
 
 	test('should disable form submission while updating', async () => {
 		const screen = renderWithProviders(<UserInfosPage />)
 
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		await act(async () => {
 			fireEvent.click(submitButton)
@@ -96,7 +98,7 @@ describe('User Info Page', () => {
 			fireEvent.change(firstNameInput, { target: { value: 'NewName' } })
 		})
 
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		await act(async () => {
 			fireEvent.click(submitButton)
@@ -124,7 +126,7 @@ describe('User Info Page', () => {
 			fireEvent.change(firstNameInput, { target: { value: 'NewName' } })
 		})
 
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		await act(async () => {
 			fireEvent.click(submitButton)
@@ -142,7 +144,7 @@ describe('User Info Page', () => {
 		const screen = renderWithProviders(<UserInfosPage />)
 
 		const firstNameInput = screen.getByLabelText('First Name')
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		fireEvent.change(firstNameInput, { target: { value: 'DifferentName' } })
 
@@ -152,7 +154,7 @@ describe('User Info Page', () => {
 	test('should disable submit button when form is filled with the same data as original', () => {
 		const screen = renderWithProviders(<UserInfosPage />)
 
-		const submitButton = screen.getByRole('button', { name: /submit/i })
+		const submitButton = screen.getByRole('button', { name: /save changes/i })
 
 		expect(submitButton).toBeDisabled()
 	})
