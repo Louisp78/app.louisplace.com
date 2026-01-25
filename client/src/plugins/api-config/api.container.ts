@@ -4,6 +4,7 @@ import {
 	AuthControllerApi,
 	BASE_PATH,
 	Configuration,
+	CodePieceControllerApi,
 	UserControllerApi,
 } from '@/plugins/api-repository-generated'
 
@@ -27,3 +28,4 @@ const config = () => {
 
 export const userControllerApi = new UserControllerApi(config())
 export const authControllerApi = new AuthControllerApi(config())
+export const codePieceControllerApi = new CodePieceControllerApi(config())
