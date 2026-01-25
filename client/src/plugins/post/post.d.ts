@@ -46,6 +46,24 @@ export type PostDataContent =
 				content: string
 			}
 	  }
+	| {
+			type: 'code'
+			data: {
+				language: string
+				code: string
+				title?: string
+				showLineNumbers?: boolean
+				theme?: 'vs-dark' | 'light'
+				editable?: boolean
+			}
+	  }
+	| {
+			type: 'hidden-section'
+			data: {
+				title: string
+				items: PostDataContent[]
+			}
+	  }
 	| string
 
 export interface PostMetadata {

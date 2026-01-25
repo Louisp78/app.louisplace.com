@@ -1,5 +1,5 @@
 export type { default as IPostService } from './post.service.interface'
-export type { PostData, PostMetadata } from './post'
+export type { PostData, PostMetadata, PostDataContent } from './post'
 export { default as Post } from './components/post'
 export { default as PostContent } from './components/post-content'
 export { default as PostCard } from './components/post-card'
