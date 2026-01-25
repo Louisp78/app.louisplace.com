@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	AuthControllerApi,
 	BASE_PATH,
@@ -15,7 +17,7 @@ function getCsrfToken(): string | undefined {
 }
 
 const config = () => {
-	const csrfToken = getCsrfToken()
+	const csrfToken = typeof document !== 'undefined' ? getCsrfToken() : undefined
 	return new Configuration({
 		basePath: BASE_PATH,
 		credentials: 'include',
