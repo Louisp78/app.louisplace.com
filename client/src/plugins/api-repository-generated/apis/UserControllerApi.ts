@@ -22,7 +22,7 @@ import {
 } from '../models/index'
 
 export interface UpdateUserInfosRequest {
-	dataToUpdate: UserUpdateDTO
+	userUpdateDTO: UserUpdateDTO
 }
 
 /**
@@ -66,20 +66,18 @@ export class UserControllerApi extends runtime.BaseAPI {
 		requestParameters: UpdateUserInfosRequest,
 		initOverrides?: RequestInit | runtime.InitOverrideFunction
 	): Promise<runtime.ApiResponse<UserDTO>> {
-		if (requestParameters['dataToUpdate'] == null) {
+		if (requestParameters['userUpdateDTO'] == null) {
 			throw new runtime.RequiredError(
-				'dataToUpdate',
-				'Required parameter "dataToUpdate" was null or undefined when calling updateUserInfos().'
+				'userUpdateDTO',
+				'Required parameter "userUpdateDTO" was null or undefined when calling updateUserInfos().'
 			)
 		}
 
 		const queryParameters: any = {}
 
-		if (requestParameters['dataToUpdate'] != null) {
-			queryParameters['dataToUpdate'] = requestParameters['dataToUpdate']
-		}
-
 		const headerParameters: runtime.HTTPHeaders = {}
+
+		headerParameters['Content-Type'] = 'application/json'
 
 		let urlPath = `/users/me`
 
@@ -89,6 +87,7 @@ export class UserControllerApi extends runtime.BaseAPI {
 				method: 'PUT',
 				headers: headerParameters,
 				query: queryParameters,
+				body: UserUpdateDTOToJSON(requestParameters['userUpdateDTO']),
 			},
 			initOverrides
 		)

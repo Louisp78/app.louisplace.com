@@ -11,7 +11,7 @@ export default function useUpdateUserInfos() {
 	return useMutation({
 		mutationFn: async (dataToUpdate: UserUpdateDTO) => {
 			return await userControllerApi.updateUserInfos({
-				dataToUpdate,
+				userUpdateDTO: dataToUpdate,
 			})
 		},
 		onSuccess: (data: UserDTO) => {

@@ -60,7 +60,7 @@ No authorization required
 
 ## updateUserInfos
 
-> UserDTO updateUserInfos(dataToUpdate)
+> UserDTO updateUserInfos(userUpdateDTO)
 
 ### Example
 
@@ -77,7 +77,7 @@ async function example() {
 
   const body = {
     // UserUpdateDTO
-    dataToUpdate: ...,
+    userUpdateDTO: ...,
   } satisfies UpdateUserInfosRequest;
 
   try {
@@ -94,9 +94,9 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name             | Type    | Description | Notes                     |
-| ---------------- | ------- | ----------- | ------------------------- |
-| **dataToUpdate** | [](.md) |             | [Defaults to `undefined`] |
+| Name              | Type                              | Description | Notes |
+| ----------------- | --------------------------------- | ----------- | ----- |
+| **userUpdateDTO** | [UserUpdateDTO](UserUpdateDTO.md) |             |       |
 
 ### Return type
 
@@ -108,7 +108,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: `application/json`
 - **Accept**: `*/*`
 
 ### HTTP response details

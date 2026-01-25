@@ -3,6 +3,7 @@ package com.louisplace.backend.features.user;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,6 @@ import com.louisplace.backend.features.auth.session_service.SessionService;
 public class UserController {
 
     SessionService sessionService;
-
     UserService userService;
 
     public UserController(SessionService sessionService, UserService userService) {
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UserDTO> updateUserInfos(UserUpdateDTO dataToUpdate) {
+    public ResponseEntity<UserDTO> updateUserInfos(@RequestBody UserUpdateDTO dataToUpdate) {
         String email = sessionService.getPrincipal();
         UserEntity user = userService.updateUserInfo(email, dataToUpdate).orElse(null);
         if (user == null) {
@@ -34,7 +34,6 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getUserInfos() {
-        System.out.println("Getting user info");
         String email = sessionService.getPrincipal();
         UserEntity user = userService.getUserInfo(email).orElse(null);
         if (user == null) {
