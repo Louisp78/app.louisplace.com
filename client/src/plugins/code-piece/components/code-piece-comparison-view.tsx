@@ -102,7 +102,7 @@ export default function CodePieceComparisonView({
 									readOnly: true,
 									minimap: { enabled: false },
 									fontSize: 12,
-									lineNumbers: 'on',
+									lineNumbers: 'off',
 									scrollBeyondLastLine: false,
 									automaticLayout: true,
 									padding: { top: 16, bottom: 16 },
