@@ -4,6 +4,8 @@ import { parseInlineMarkdown } from '../utils/markdown'
 import Callout from './callout'
 import Quote from './quote'
 import PostLink from './post-link'
+import HiddenSection from '@/components/hidden-section'
+import { CodeBlock } from '@/plugins/code'
 
 export default function PostContent({ component }: { component: PostDataContent }) {
 	if (typeof component === 'string') {
@@ -59,5 +61,16 @@ export default function PostContent({ component }: { component: PostDataContent 
 					<PostContent component={component.data.content} />
 				</PostLink>
 			)
+		case 'code':
+			return (
+				<CodeBlock
+					language={component.data.language}
+					code={component.data.code}
+					title={component.data.title}
+					editable={component.data.editable}
+				/>
+			)
+		case 'hidden-section':
+			return <HiddenSection title={component.data.title} items={component.data.items} />
 	}
 }

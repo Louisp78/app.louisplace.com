@@ -1,5 +1,4 @@
-import React from 'react'
-import ArrowUpRight from './arrow-up-right'
+import ArrowUpRight from '../../../components/icons/arrow-up-right'
 
 interface LinkProps {
 	href: string
