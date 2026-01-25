@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const runtimePath = path.join(__dirname, '../src/features/api-repository-generated/runtime.ts')
+const apiGeneratedDir = process.env.API_GENERATED_OUTPUT_DIR
+const runtimePath = path.join(__dirname, '..', apiGeneratedDir, 'runtime.ts')
 const defaultConfigLine =
 	"export const DefaultConfig = new Configuration({ credentials: 'include' })"
 
