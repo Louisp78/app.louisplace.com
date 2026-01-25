@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import GoogleLoginIcon from '../google-login-icon'
-import GithubLoginIcon from '../github-login-icon'
+import GoogleLoginIcon from '../icons/google-login-icon'
+import GithubLoginIcon from '../icons/github-login-icon'
 import TEXT from '@/constants/text'
 
 const providers = [
