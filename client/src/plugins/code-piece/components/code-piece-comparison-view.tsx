@@ -22,7 +22,8 @@ export default function CodePieceComparisonView({
 	const [localCode, setLocalCode] = useState(codePiece.code)
 	const [showSolution, setShowSolution] = useState(false)
 
-	const handleSave = () => {
+	const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.stopPropagation()
 		if (localCode !== codePiece.code) {
 			onCodeChange(codePiece.id, localCode)
 		}
@@ -64,7 +65,7 @@ export default function CodePieceComparisonView({
 					<button
 						onClick={handleSave}
 						disabled={localCode === codePiece.code}
-						className="w-full rounded bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+						className="z-10 w-full rounded bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
 					>
 						Save Changes
 					</button>
