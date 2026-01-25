@@ -47,7 +47,7 @@ function DesktopSignInButton() {
 			<button
 				onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				onBlur={() => setTimeout(() => setIsDropdownOpen(false), 150)}
-				className="flex items-center rounded border-2 border-white px-4 py-2 text-white transition hover:bg-white/10"
+				className="flex cursor-pointer items-center rounded border-2 border-white px-4 py-2 text-white transition hover:bg-white/10"
 			>
 				{TEXT.login.signIn}
 				<svg
