@@ -28,7 +28,7 @@ describe('Auth of Posts Page', () => {
 		const screen = renderWithProviders(<AppBar />)
 
 		await waitFor(() => {
-			expect(screen.getByText(`Hello, ${userData.firstName}`)).toBeInTheDocument()
+			expect(screen.getByText(`Account of ${userData.firstName}`)).toBeInTheDocument()
 		})
 	})
 
