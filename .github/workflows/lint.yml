@@ -1,9 +1,8 @@
-name: Lint
+name: Lint and Test
 
 on:
   workflow_call:
   pull_request:
-    types: [ready_for_review]
     branches: [main]
   workflow_dispatch:
 
@@ -28,5 +27,8 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: pnpm install
-      - name: Check step
+      - name: Lint step
         run: pnpm run lint_format:check
+
+      - name: Test step
+        run: pnpm test
