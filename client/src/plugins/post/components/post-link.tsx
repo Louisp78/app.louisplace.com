@@ -1,4 +1,4 @@
-import ArrowUpRight from '../../../components/icons/arrow-up-right'
+import { ArrowUpRight } from 'lucide-react'
 
 interface LinkProps {
 	href: string

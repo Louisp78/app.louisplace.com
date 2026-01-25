@@ -7,9 +7,10 @@ import { PostDataContent } from '@/plugins/post'
 interface HiddenSectionProps {
 	title: string
 	items: PostDataContent[]
+	postSlug?: string
 }
 
-export default function HiddenSection({ title, items }: HiddenSectionProps) {
+export default function HiddenSection({ title, items, postSlug }: HiddenSectionProps) {
 	const [isVisible, setIsVisible] = useState(false)
 
 	return (
@@ -33,7 +34,7 @@ export default function HiddenSection({ title, items }: HiddenSectionProps) {
 					{isVisible && (
 						<div className="mt-2 rounded-lg border border-gray-700 bg-gray-900 p-4">
 							{items.map((item, index) => (
-								<PostContent key={index} component={item} />
+								<PostContent key={index} component={item} postSlug={postSlug} />
 							))}
 						</div>
 					)}
