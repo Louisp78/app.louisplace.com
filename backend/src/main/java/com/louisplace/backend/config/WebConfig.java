@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(env.getProperty("spring.config.clientUrl"))
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
+                .allowedHeaders("Content-Type", "Accept", "X-Requested-With")
                 .allowCredentials(true)
                 .maxAge(3600);
     }
