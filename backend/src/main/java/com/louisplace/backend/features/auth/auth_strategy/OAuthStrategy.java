@@ -1,5 +1,6 @@
 package com.louisplace.backend.features.auth.auth_strategy;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -48,6 +49,7 @@ public class OAuthStrategy implements IAuthStragegy {
                 Map<String, Object> tokenResponse = webClient.post()
                                 .uri(provider.getTokenUrl())
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .accept(MediaType.APPLICATION_JSON)
                                 .body(BodyInserters.fromFormData(formData))
                                 .retrieve()
                                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
@@ -63,10 +65,29 @@ public class OAuthStrategy implements IAuthStragegy {
                                 })
                                 .block();
 
+                String email = (String) userInfo.get(FIELD_EMAIL);
+
+                if (email == null && provider.getEmailUrl() != null) {
+                        List<Map<String, Object>> emails = webClient.get()
+                                        .uri(provider.getEmailUrl())
+                                        .headers(headers -> headers.setBearerAuth(accessToken))
+                                        .retrieve()
+                                        .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                                        })
+                                        .block();
+
+                        email = emails.stream()
+                                        .filter(e -> Boolean.TRUE.equals(e.get("primary"))
+                                                        && Boolean.TRUE.equals(e.get("verified")))
+                                        .map(e -> (String) e.get(FIELD_EMAIL))
+                                        .findFirst()
+                                        .orElse(null);
+                }
+
                 AuthUserInfoDTO authUserInfo = new AuthUserInfoDTO(
                                 (String) userInfo.get(provider.getFirstNameField()),
                                 (String) userInfo.get(provider.getLastNameField()),
-                                (String) userInfo.get(FIELD_EMAIL));
+                                email);
                 return authUserInfo;
         }
 
