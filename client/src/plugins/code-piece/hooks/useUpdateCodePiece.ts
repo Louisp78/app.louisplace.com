@@ -1,9 +1,9 @@
 'use client'
 
 import { codePieceControllerApi } from '@/plugins/api-config'
-import type { CodePieceDTO, CodePieceUpdateDTO } from '@/plugins/api-repository-generated/models'
-import { CODE_PIECES_KEY } from './useCodePieces'
+import type { CodePieceUpdateDTO } from '@/plugins/api-repository-generated/models'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CODE_PIECES_KEY } from './useCodePieces'
 
 export default function useUpdateCodePiece() {
 	const queryClient = useQueryClient()
