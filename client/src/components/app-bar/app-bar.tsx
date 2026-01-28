@@ -34,11 +34,10 @@ export default function AppBar() {
 							<span className="text-sm">My Code</span>
 						</Link>
 					)}
+					{user && <span>|</span>}
 					{!user ? (
-					<span>|</span>
 						<SignInButton />
 					) : (
-					<span>|</span>
 						<Link
 							href="/user-infos"
 							className={
