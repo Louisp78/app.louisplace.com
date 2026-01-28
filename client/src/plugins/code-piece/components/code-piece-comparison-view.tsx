@@ -29,7 +29,7 @@ export default function CodePieceComparisonView({
 		}
 	}
 
-	const handleEditorMount = (editor: any) => {
+	const handleEditorMount = (editor) => {
 		const domElement = editor?.getDomNode?.()
 		if (domElement) {
 			domElement.addEventListener('click', (e: MouseEvent) => {
