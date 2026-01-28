@@ -8,11 +8,7 @@ export default function Post({ post }: { post: PostData }) {
 			<PostHeader post={post} />
 			<section>
 				{post.content.map((component, index) => (
-					<PostContent
-						key={index}
-						component={component}
-						postSlug={post.metadata.slug}
-					/>
+					<PostContent key={index} component={component} postSlug={post.metadata.slug} />
 				))}
 			</section>
 		</article>
