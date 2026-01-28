@@ -16,7 +16,7 @@ export default function AppBar() {
 		<header className="fixed top-0 z-50 max-h-16 w-full bg-black/70 backdrop-blur-md">
 			<div className="flex w-full items-center justify-between px-6 py-3 md:px-12">
 				<Link href="/" className="flex items-center gap-3 text-white no-underline">
-					<Image src="/me.png" alt="Logo" width={45} height={45} />
+					<Image src="/me.png" alt="Louis (me)" width={45} height={45} />
 					<h1 className="font-[Syne] text-2xl font-bold md:text-4xl">Louis&apos; Blog</h1>
 				</Link>
 
