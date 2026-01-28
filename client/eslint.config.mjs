@@ -12,6 +12,9 @@ const compat = new FlatCompat({
 })
 
 const eslintConfig = [
+	{
+		ignores: ['src/plugins/api-repository-generated/**'],
+	},
 	...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
 	{
 		files: ['**/*.ts', '**/*.tsx'],
