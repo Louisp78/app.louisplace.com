@@ -9,6 +9,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "code_pieces")
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"source_post_slug", "user_email"})
+})
 public class CodePieceEntity implements Serializable {
 
     @Getter
@@ -38,7 +41,7 @@ public class CodePieceEntity implements Serializable {
 
     @Setter
     @Getter
-    @Column(name = "source_post_slug")
+    @Column(name = "source_post_slug", nullable = false)
     private String sourcePostSlug;
 
     @Setter

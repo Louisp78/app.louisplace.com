@@ -40,12 +40,12 @@ public class CodePieceController {
         return ResponseEntity.ok(new CodePieceDTO(entity));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{sourcePostSlug}")
     public ResponseEntity<CodePieceDTO> updateCodePiece(
-            @PathVariable Long id,
+            @PathVariable String sourcePostSlug,
             @RequestBody CodePieceUpdateDTO updateDTO) {
         String email = sessionService.getPrincipal();
-        CodePieceEntity entity = codePieceService.updateCodePiece(email, id, updateDTO).orElse(null);
+        CodePieceEntity entity = codePieceService.updateCodePiece(email, sourcePostSlug, updateDTO).orElse(null);
 
         if (entity == null) {
             return ResponseEntity.notFound().build();
@@ -54,10 +54,10 @@ public class CodePieceController {
         return ResponseEntity.ok(new CodePieceDTO(entity));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCodePiece(@PathVariable Long id) {
+    @DeleteMapping("/{sourcePostSlug}")
+    public ResponseEntity<Void> deleteCodePiece(@PathVariable String sourcePostSlug) {
         String email = sessionService.getPrincipal();
-        boolean deleted = codePieceService.deleteCodePiece(email, id);
+        boolean deleted = codePieceService.deleteCodePiece(email, sourcePostSlug);
 
         if (!deleted) {
             return ResponseEntity.notFound().build();

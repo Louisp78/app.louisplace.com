@@ -23,6 +23,7 @@ public class CodePieceServiceTest {
     private CodePieceService codePieceService;
 
     static String email = "test@example.com";
+    static String sourcePostSlug = "test-post";
     static CodePieceEntity mockEntity;
 
     @BeforeEach
@@ -32,6 +33,7 @@ public class CodePieceServiceTest {
         mockEntity.setCode("console.log('test')");
         mockEntity.setLanguage("javascript");
         mockEntity.setTitle("Test Code");
+        mockEntity.setSourcePostSlug(sourcePostSlug);
         mockEntity.setIsSolved(false);
 
         lenient().when(codePieceRepository.save(any(CodePieceEntity.class)))
@@ -40,7 +42,7 @@ public class CodePieceServiceTest {
         lenient().when(codePieceRepository.findByUserEmail(email))
                 .thenReturn(List.of(mockEntity));
 
-        lenient().when(codePieceRepository.findByIdAndUserEmail(1L, email))
+        lenient().when(codePieceRepository.findBySourcePostSlugAndUserEmail(sourcePostSlug, email))
                 .thenReturn(Optional.of(mockEntity));
     }
 
@@ -105,7 +107,7 @@ public class CodePieceServiceTest {
                 "console.log('test');",
                 "javascript",
                 "Quick Test",
-                null,
+                "quick-test",
                 null,
                 null
             );
@@ -114,7 +116,7 @@ public class CodePieceServiceTest {
 
             assertTrue(result.isPresent());
             assertEquals("Quick Test", result.get().getTitle());
-            assertNull(result.get().getSourcePostSlug());
+            assertEquals("quick-test", result.get().getSourcePostSlug());
             assertNull(result.get().getExerciseContext());
             assertNull(result.get().getSolutionCode());
         }
@@ -126,7 +128,7 @@ public class CodePieceServiceTest {
                 "code",
                 "python",
                 "Python Code",
-                null,
+                "python-code",
                 null,
                 null
             );
@@ -151,7 +153,7 @@ public class CodePieceServiceTest {
                 Optional.of(true)
             );
 
-            Optional<CodePieceEntity> result = codePieceService.updateCodePiece(email, 1L, dto);
+            Optional<CodePieceEntity> result = codePieceService.updateCodePiece(email, sourcePostSlug, dto);
 
             assertTrue(result.isPresent());
             assertEquals("Updated Title", result.get().getTitle());
@@ -168,7 +170,7 @@ public class CodePieceServiceTest {
                 Optional.empty()
             );
 
-            codePieceService.updateCodePiece(email, 1L, dto);
+            codePieceService.updateCodePiece(email, sourcePostSlug, dto);
 
             // Original mockEntity is updated
             assertEquals("new code", mockEntity.getCode());
@@ -183,7 +185,7 @@ public class CodePieceServiceTest {
                 Optional.empty()
             );
 
-            codePieceService.updateCodePiece(email, 1L, dto);
+            codePieceService.updateCodePiece(email, sourcePostSlug, dto);
 
             assertEquals("New Title", mockEntity.getTitle());
         }
@@ -197,7 +199,7 @@ public class CodePieceServiceTest {
                 Optional.of(true)
             );
 
-            codePieceService.updateCodePiece(email, 1L, dto);
+            codePieceService.updateCodePiece(email, sourcePostSlug, dto);
 
             assertTrue(mockEntity.getIsSolved());
         }
@@ -205,7 +207,8 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should return empty for non-existent code piece")
         void shouldReturnEmptyForNonExistent() {
-            when(codePieceRepository.findByIdAndUserEmail(999L, email))
+            String nonExistentSlug = "non-existent";
+            when(codePieceRepository.findBySourcePostSlugAndUserEmail(nonExistentSlug, email))
                     .thenReturn(Optional.empty());
 
             CodePieceUpdateDTO dto = new CodePieceUpdateDTO(
@@ -214,7 +217,7 @@ public class CodePieceServiceTest {
                 Optional.empty()
             );
 
-            Optional<CodePieceEntity> result = codePieceService.updateCodePiece(email, 999L, dto);
+            Optional<CodePieceEntity> result = codePieceService.updateCodePiece(email, nonExistentSlug, dto);
 
             assertTrue(result.isEmpty());
         }
@@ -222,7 +225,7 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should verify ownership when updating")
         void shouldVerifyOwnershipWhenUpdating() {
-            when(codePieceRepository.findByIdAndUserEmail(1L, "other@example.com"))
+            when(codePieceRepository.findBySourcePostSlugAndUserEmail(sourcePostSlug, "other@example.com"))
                     .thenReturn(Optional.empty());
 
             CodePieceUpdateDTO dto = new CodePieceUpdateDTO(
@@ -231,7 +234,7 @@ public class CodePieceServiceTest {
                 Optional.empty()
             );
 
-            Optional<CodePieceEntity> result = codePieceService.updateCodePiece("other@example.com", 1L, dto);
+            Optional<CodePieceEntity> result = codePieceService.updateCodePiece("other@example.com", sourcePostSlug, dto);
 
             assertTrue(result.isEmpty());
         }
@@ -243,7 +246,7 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should successfully delete code piece")
         void shouldDeleteCodePiece() {
-            boolean result = codePieceService.deleteCodePiece(email, 1L);
+            boolean result = codePieceService.deleteCodePiece(email, sourcePostSlug);
 
             assertTrue(result);
             verify(codePieceRepository, times(1)).delete(any(CodePieceEntity.class));
@@ -252,10 +255,11 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should return false for non-existent code piece")
         void shouldReturnFalseForNonExistent() {
-            when(codePieceRepository.findByIdAndUserEmail(999L, email))
+            String nonExistentSlug = "non-existent";
+            when(codePieceRepository.findBySourcePostSlugAndUserEmail(nonExistentSlug, email))
                     .thenReturn(Optional.empty());
 
-            boolean result = codePieceService.deleteCodePiece(email, 999L);
+            boolean result = codePieceService.deleteCodePiece(email, nonExistentSlug);
 
             assertFalse(result);
             verify(codePieceRepository, never()).delete(any(CodePieceEntity.class));
@@ -264,10 +268,10 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should verify ownership before deleting")
         void shouldVerifyOwnershipBeforeDeleting() {
-            when(codePieceRepository.findByIdAndUserEmail(1L, "other@example.com"))
+            when(codePieceRepository.findBySourcePostSlugAndUserEmail(sourcePostSlug, "other@example.com"))
                     .thenReturn(Optional.empty());
 
-            boolean result = codePieceService.deleteCodePiece("other@example.com", 1L);
+            boolean result = codePieceService.deleteCodePiece("other@example.com", sourcePostSlug);
 
             assertFalse(result);
             verify(codePieceRepository, never()).delete(any(CodePieceEntity.class));
@@ -276,7 +280,7 @@ public class CodePieceServiceTest {
         @Test
         @DisplayName("Should delete the correct code piece")
         void shouldDeleteCorrectCodePiece() {
-            codePieceService.deleteCodePiece(email, 1L);
+            codePieceService.deleteCodePiece(email, sourcePostSlug);
 
             verify(codePieceRepository, times(1)).delete(mockEntity);
         }

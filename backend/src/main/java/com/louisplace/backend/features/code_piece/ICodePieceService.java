@@ -8,7 +8,7 @@ public interface ICodePieceService {
 
     Optional<CodePieceEntity> createCodePiece(String userEmail, CodePieceCreateDTO createDTO);
 
-    Optional<CodePieceEntity> updateCodePiece(String userEmail, Long id, CodePieceUpdateDTO updateDTO);
+    Optional<CodePieceEntity> updateCodePiece(String userEmail, String sourcePostSlug, CodePieceUpdateDTO updateDTO);
 
-    boolean deleteCodePiece(String userEmail, Long id);
+    boolean deleteCodePiece(String userEmail, String sourcePostSlug);
 }

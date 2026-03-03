@@ -35,8 +35,8 @@ public class CodePieceService implements ICodePieceService {
     }
 
     @Override
-    public Optional<CodePieceEntity> updateCodePiece(String userEmail, Long id, CodePieceUpdateDTO updateDTO) {
-        Optional<CodePieceEntity> optEntity = codePieceRepository.findByIdAndUserEmail(id, userEmail);
+    public Optional<CodePieceEntity> updateCodePiece(String userEmail, String sourcePostSlug, CodePieceUpdateDTO updateDTO) {
+        Optional<CodePieceEntity> optEntity = codePieceRepository.findBySourcePostSlugAndUserEmail(sourcePostSlug, userEmail);
 
         if (optEntity.isEmpty()) {
             return Optional.empty();
@@ -52,8 +52,8 @@ public class CodePieceService implements ICodePieceService {
     }
 
     @Override
-    public boolean deleteCodePiece(String userEmail, Long id) {
-        Optional<CodePieceEntity> optEntity = codePieceRepository.findByIdAndUserEmail(id, userEmail);
+    public boolean deleteCodePiece(String userEmail, String sourcePostSlug) {
+        Optional<CodePieceEntity> optEntity = codePieceRepository.findBySourcePostSlugAndUserEmail(sourcePostSlug, userEmail);
 
         if (optEntity.isEmpty()) {
             return false;

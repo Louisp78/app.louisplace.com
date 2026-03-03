@@ -9,6 +9,8 @@ public interface ICodePieceRepository extends Repository<CodePieceEntity, Long> 
 
     Optional<CodePieceEntity> findByIdAndUserEmail(Long id, String userEmail);
 
+    Optional<CodePieceEntity> findBySourcePostSlugAndUserEmail(String sourcePostSlug, String userEmail);
+
     CodePieceEntity save(CodePieceEntity codePiece);
 
     void delete(CodePieceEntity codePiece);
