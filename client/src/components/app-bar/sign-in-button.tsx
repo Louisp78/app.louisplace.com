@@ -25,13 +25,14 @@ const providers = [
 
 function MobileSignInButton() {
 	return (
-		<div className="flex gap-2 md:hidden">
+		<div className="flex flex-col items-center gap-6 md:hidden">
 			{providers.map((provider) => (
 				<Link
 					key={provider.name}
 					href={provider.href}
-					className="flex items-center rounded border-2 border-white p-2 transition hover:bg-white/10 hover:no-underline"
+					className="flex items-center gap-2 rounded border-2 border-white p-2 text-white transition hover:bg-white/10 hover:no-underline"
 				>
+					<span className="font-medium">{provider.label}</span>
 					<provider.icon className={`h-5 w-5 ${provider.iconClassName ?? ''}`} />
 				</Link>
 			))}
