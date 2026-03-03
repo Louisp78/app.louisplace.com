@@ -19,6 +19,10 @@ const TEXT = {
 		googleButton: 'Sign in with Google',
 		githubButton: 'Sign in with GitHub',
 	},
+	codeBlock: {
+		restrictedContent: 'This interactive code editor is only available for registered users.',
+		signInPrompt: 'Sign in to edit and save your code',
+	},
 	userInfoPage: {
 		successUpdate: 'Profile updated successfully!',
 		errorUpdate: 'Failed to update profile.',
