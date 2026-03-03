@@ -28,11 +28,11 @@ export interface CreateCodePieceRequest {
 }
 
 export interface DeleteCodePieceRequest {
-	id: number
+	sourcePostSlug: string
 }
 
 export interface UpdateCodePieceRequest {
-	id: number
+	sourcePostSlug: string
 	codePieceUpdateDTO: CodePieceUpdateDTO
 }
 
@@ -91,10 +91,10 @@ export class CodePieceControllerApi extends runtime.BaseAPI {
 		requestParameters: DeleteCodePieceRequest,
 		initOverrides?: RequestInit | runtime.InitOverrideFunction
 	): Promise<runtime.ApiResponse<void>> {
-		if (requestParameters['id'] == null) {
+		if (requestParameters['sourcePostSlug'] == null) {
 			throw new runtime.RequiredError(
-				'id',
-				'Required parameter "id" was null or undefined when calling deleteCodePiece().'
+				'sourcePostSlug',
+				'Required parameter "sourcePostSlug" was null or undefined when calling deleteCodePiece().'
 			)
 		}
 
@@ -102,8 +102,11 @@ export class CodePieceControllerApi extends runtime.BaseAPI {
 
 		const headerParameters: runtime.HTTPHeaders = {}
 
-		let urlPath = `/code-pieces/{id}`
-		urlPath = urlPath.replace(`{${'id'}}`, encodeURIComponent(String(requestParameters['id'])))
+		let urlPath = `/code-pieces/{sourcePostSlug}`
+		urlPath = urlPath.replace(
+			`{${'sourcePostSlug'}}`,
+			encodeURIComponent(String(requestParameters['sourcePostSlug']))
+		)
 
 		const response = await this.request(
 			{
@@ -166,10 +169,10 @@ export class CodePieceControllerApi extends runtime.BaseAPI {
 		requestParameters: UpdateCodePieceRequest,
 		initOverrides?: RequestInit | runtime.InitOverrideFunction
 	): Promise<runtime.ApiResponse<CodePieceDTO>> {
-		if (requestParameters['id'] == null) {
+		if (requestParameters['sourcePostSlug'] == null) {
 			throw new runtime.RequiredError(
-				'id',
-				'Required parameter "id" was null or undefined when calling updateCodePiece().'
+				'sourcePostSlug',
+				'Required parameter "sourcePostSlug" was null or undefined when calling updateCodePiece().'
 			)
 		}
 
@@ -186,8 +189,11 @@ export class CodePieceControllerApi extends runtime.BaseAPI {
 
 		headerParameters['Content-Type'] = 'application/json'
 
-		let urlPath = `/code-pieces/{id}`
-		urlPath = urlPath.replace(`{${'id'}}`, encodeURIComponent(String(requestParameters['id'])))
+		let urlPath = `/code-pieces/{sourcePostSlug}`
+		urlPath = urlPath.replace(
+			`{${'sourcePostSlug'}}`,
+			encodeURIComponent(String(requestParameters['sourcePostSlug']))
+		)
 
 		const response = await this.request(
 			{

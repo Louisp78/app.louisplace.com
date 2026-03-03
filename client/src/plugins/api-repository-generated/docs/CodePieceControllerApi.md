@@ -2,12 +2,12 @@
 
 All URIs are relative to _http://localhost:8080_
 
-| Method                                                               | HTTP request                 | Description |
-| -------------------------------------------------------------------- | ---------------------------- | ----------- |
-| [**createCodePiece**](CodePieceControllerApi.md#createcodepiece)     | **POST** /code-pieces        |             |
-| [**deleteCodePiece**](CodePieceControllerApi.md#deletecodepiece)     | **DELETE** /code-pieces/{id} |             |
-| [**getUserCodePieces**](CodePieceControllerApi.md#getusercodepieces) | **GET** /code-pieces/me      |             |
-| [**updateCodePiece**](CodePieceControllerApi.md#updatecodepiece)     | **PUT** /code-pieces/{id}    |             |
+| Method                                                               | HTTP request                             | Description |
+| -------------------------------------------------------------------- | ---------------------------------------- | ----------- |
+| [**createCodePiece**](CodePieceControllerApi.md#createcodepiece)     | **POST** /code-pieces                    |             |
+| [**deleteCodePiece**](CodePieceControllerApi.md#deletecodepiece)     | **DELETE** /code-pieces/{sourcePostSlug} |             |
+| [**getUserCodePieces**](CodePieceControllerApi.md#getusercodepieces) | **GET** /code-pieces/me                  |             |
+| [**updateCodePiece**](CodePieceControllerApi.md#updatecodepiece)     | **PUT** /code-pieces/{sourcePostSlug}    |             |
 
 ## createCodePiece
 
@@ -72,7 +72,7 @@ No authorization required
 
 ## deleteCodePiece
 
-> deleteCodePiece(id)
+> deleteCodePiece(sourcePostSlug)
 
 ### Example
 
@@ -85,8 +85,8 @@ async function example() {
 	const api = new CodePieceControllerApi()
 
 	const body = {
-		// number
-		id: 789,
+		// string
+		sourcePostSlug: sourcePostSlug_example,
 	} satisfies DeleteCodePieceRequest
 
 	try {
@@ -103,9 +103,9 @@ example().catch(console.error)
 
 ### Parameters
 
-| Name   | Type     | Description | Notes                     |
-| ------ | -------- | ----------- | ------------------------- |
-| **id** | `number` |             | [Defaults to `undefined`] |
+| Name               | Type     | Description | Notes                     |
+| ------------------ | -------- | ----------- | ------------------------- |
+| **sourcePostSlug** | `string` |             | [Defaults to `undefined`] |
 
 ### Return type
 
@@ -181,7 +181,7 @@ No authorization required
 
 ## updateCodePiece
 
-> CodePieceDTO updateCodePiece(id, codePieceUpdateDTO)
+> CodePieceDTO updateCodePiece(sourcePostSlug, codePieceUpdateDTO)
 
 ### Example
 
@@ -197,8 +197,8 @@ async function example() {
   const api = new CodePieceControllerApi();
 
   const body = {
-    // number
-    id: 789,
+    // string
+    sourcePostSlug: sourcePostSlug_example,
     // CodePieceUpdateDTO
     codePieceUpdateDTO: ...,
   } satisfies UpdateCodePieceRequest;
@@ -219,7 +219,7 @@ example().catch(console.error);
 
 | Name                   | Type                                        | Description | Notes                     |
 | ---------------------- | ------------------------------------------- | ----------- | ------------------------- |
-| **id**                 | `number`                                    |             | [Defaults to `undefined`] |
+| **sourcePostSlug**     | `string`                                    |             | [Defaults to `undefined`] |
 | **codePieceUpdateDTO** | [CodePieceUpdateDTO](CodePieceUpdateDTO.md) |             |                           |
 
 ### Return type

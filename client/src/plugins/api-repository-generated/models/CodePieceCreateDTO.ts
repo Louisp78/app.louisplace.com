@@ -42,7 +42,7 @@ export interface CodePieceCreateDTO {
 	 * @type {string}
 	 * @memberof CodePieceCreateDTO
 	 */
-	sourcePostSlug?: string
+	sourcePostSlug: string
 	/**
 	 *
 	 * @type {string}
@@ -61,6 +61,7 @@ export interface CodePieceCreateDTO {
  * Check if a given object implements the CodePieceCreateDTO interface.
  */
 export function instanceOfCodePieceCreateDTO(value: object): value is CodePieceCreateDTO {
+	if (!('sourcePostSlug' in value) || value['sourcePostSlug'] === undefined) return false
 	return true
 }
 
@@ -79,7 +80,7 @@ export function CodePieceCreateDTOFromJSONTyped(
 		code: json['code'] == null ? undefined : json['code'],
 		language: json['language'] == null ? undefined : json['language'],
 		title: json['title'] == null ? undefined : json['title'],
-		sourcePostSlug: json['sourcePostSlug'] == null ? undefined : json['sourcePostSlug'],
+		sourcePostSlug: json['sourcePostSlug'],
 		exerciseContext: json['exerciseContext'] == null ? undefined : json['exerciseContext'],
 		solutionCode: json['solutionCode'] == null ? undefined : json['solutionCode'],
 	}
