@@ -8,8 +8,8 @@ export default function useDeleteCodePiece() {
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationFn: async (id: number) => {
-			return await codePieceControllerApi.deleteCodePiece({ id })
+		mutationFn: async (sourcePostSlug: string) => {
+			return await codePieceControllerApi.deleteCodePiece({ sourcePostSlug })
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [CODE_PIECES_KEY] })

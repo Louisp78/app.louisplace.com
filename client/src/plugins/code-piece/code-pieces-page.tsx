@@ -15,30 +15,30 @@ export default function CodePiecesPage() {
 	const { mutate: deleteCodePiece } = useDeleteCodePiece()
 	const [selectedCodePiece, setSelectedCodePiece] = useState<CodePieceDTO | null>(null)
 
-	const handleDelete = (id: number) => {
-		deleteCodePiece(id)
-		if (selectedCodePiece?.id === id) {
+	const handleDelete = (sourcePostSlug: string) => {
+		deleteCodePiece(sourcePostSlug)
+		if (selectedCodePiece?.sourcePostSlug === sourcePostSlug) {
 			setSelectedCodePiece(null)
 		}
 	}
 
-	const handleToggleSolved = (id: number, isSolved: boolean) => {
+	const handleToggleSolved = (sourcePostSlug: string, isSolved: boolean) => {
 		updateCodePiece({
-			id,
+			sourcePostSlug,
 			updateData: { isSolved },
 		})
 	}
 
-	const handleUpdateTitle = (id: number, title: string) => {
+	const handleUpdateTitle = (sourcePostSlug: string, title: string) => {
 		updateCodePiece({
-			id,
+			sourcePostSlug,
 			updateData: { title },
 		})
 	}
 
-	const handleCodeChange = (id: number, newCode: string) => {
+	const handleCodeChange = (sourcePostSlug: string, newCode: string) => {
 		updateCodePiece({
-			id,
+			sourcePostSlug,
 			updateData: { code: newCode },
 		})
 	}
@@ -77,9 +77,9 @@ export default function CodePiecesPage() {
 						<div className="flex flex-col gap-4">
 							{codePieces.map((piece) => (
 								<div
-									key={piece.id}
+									key={piece.sourcePostSlug}
 									onClick={() =>
-										setSelectedCodePiece(selectedCodePiece?.id === piece.id ? null : piece)
+										setSelectedCodePiece(selectedCodePiece?.sourcePostSlug === piece.sourcePostSlug ? null : piece)
 									}
 									className="cursor-pointer transition-all"
 								>
@@ -88,7 +88,7 @@ export default function CodePiecesPage() {
 										onDelete={handleDelete}
 										onToggleSolved={handleToggleSolved}
 										onUpdateTitle={handleUpdateTitle}
-										isSelected={selectedCodePiece?.id === piece.id}
+										isSelected={selectedCodePiece?.sourcePostSlug === piece.sourcePostSlug}
 									>
 										<div>
 											{selectedCodePiece && (

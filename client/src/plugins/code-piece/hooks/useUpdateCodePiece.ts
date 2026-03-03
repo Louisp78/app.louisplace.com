@@ -9,9 +9,15 @@ export default function useUpdateCodePiece() {
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationFn: async ({ id, updateData }: { id: number; updateData: CodePieceUpdateDTO }) => {
+		mutationFn: async ({
+			sourcePostSlug,
+			updateData,
+		}: {
+			sourcePostSlug: string
+			updateData: CodePieceUpdateDTO
+		}) => {
 			return await codePieceControllerApi.updateCodePiece({
-				id,
+				sourcePostSlug,
 				codePieceUpdateDTO: updateData,
 			})
 		},

@@ -1,11 +1,11 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { configureMonaco } from './configure-monaco'
-import { useCreateCodePiece } from '@/plugins/code-piece'
+import { useCodePieces, useCreateCodePiece } from '@/plugins/code-piece'
 import { useAuth } from '@/plugins/auth/index.client'
-import { useRouter } from 'next/navigation'
+import CodeBlockAuthGuard from './components/auth-guard'
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
 	ssr: false,
@@ -16,7 +16,8 @@ interface CodeBlockProps {
 	code: string
 	title?: string
 	editable?: boolean
-	sourcePostSlug?: string
+	guarded?: boolean
+	sourcePostSlug: string
 	exerciseContext?: string
 	solutionCode?: string
 }
@@ -26,14 +27,22 @@ export default function CodeBlock({
 	code,
 	title,
 	editable = false,
+	guarded = false,
 	sourcePostSlug,
 	exerciseContext,
 	solutionCode,
 }: CodeBlockProps) {
 	const [localCode, setLocalCode] = useState(code)
 	const { mutate: createCodePiece, isPending } = useCreateCodePiece()
+	const { data: codePieces } = useCodePieces()
 	const { user } = useAuth()
-	const router = useRouter()
+
+	const registeredCode = codePieces?.find((cp) => cp.sourcePostSlug === sourcePostSlug)?.code
+	useEffect(() => {
+		if (registeredCode) {
+			setLocalCode(registeredCode)
+		}
+	}, [registeredCode])
 
 	const handleEditorChange = (value: string | undefined) => {
 		const newValue = value || ''
@@ -48,38 +57,37 @@ export default function CodeBlock({
 					<span className="rounded bg-gray-700 px-2 py-1 text-xs text-gray-400">{language}</span>
 				</div>
 			)}
-			<MonacoEditor
-				height="400px"
-				language={language}
-				value={editable ? localCode : code}
-				theme="vs-dark"
-				beforeMount={configureMonaco}
-				options={{
-					readOnly: !editable,
-					minimap: { enabled: false },
-					fontSize: 14,
-					lineNumbers: 'on',
-					scrollBeyondLastLine: false,
-					automaticLayout: true,
-					padding: { top: 16, bottom: 16 },
-					fontFamily: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace",
-					fontLigatures: true,
-					renderWhitespace: 'selection',
-					smoothScrolling: true,
-					cursorBlinking: 'smooth',
-					cursorSmoothCaretAnimation: 'on',
-				}}
-				onChange={editable ? handleEditorChange : undefined}
-			/>
-			{editable && (
+			{guarded && !user ? (
+				<CodeBlockAuthGuard />
+			) : (
+				<MonacoEditor
+					height="400px"
+					language={language}
+					value={editable ? localCode : code}
+					theme="vs-dark"
+					beforeMount={configureMonaco}
+					options={{
+						readOnly: !editable,
+						minimap: { enabled: false },
+						fontSize: 14,
+						lineNumbers: 'on',
+						scrollBeyondLastLine: false,
+						automaticLayout: true,
+						padding: { top: 16, bottom: 16 },
+						fontFamily: "'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace",
+						fontLigatures: true,
+						renderWhitespace: 'selection',
+						smoothScrolling: true,
+						cursorBlinking: 'smooth',
+						cursorSmoothCaretAnimation: 'on',
+					}}
+					onChange={editable ? handleEditorChange : undefined}
+				/>
+			)}
+			{editable && user && (
 				<div className="flex justify-end border-t border-gray-700 bg-gray-800 px-4 py-3">
 					<button
 						onClick={() => {
-							if (!user) {
-								router.push('/api/auth/login')
-								return
-							}
-
 							createCodePiece(
 								{
 									code: localCode,
@@ -96,7 +104,7 @@ export default function CodeBlock({
 								}
 							)
 						}}
-						disabled={isPending}
+						disabled={isPending || registeredCode === localCode}
 						className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 					>
 						{isPending ? 'Registering...' : 'Register Code'}

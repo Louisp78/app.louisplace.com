@@ -10,7 +10,7 @@ const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false 
 
 interface CodePieceComparisonViewProps {
 	codePiece: CodePieceDTO
-	onCodeChange: (id: number, newCode: string) => void
+	onCodeChange: (sourcePostSlug: string, newCode: string) => void
 	onBack?: () => void
 }
 
@@ -25,7 +25,7 @@ export default function CodePieceComparisonView({
 	const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
 		if (localCode !== codePiece.code) {
-			onCodeChange(codePiece.id, localCode)
+			onCodeChange(codePiece.sourcePostSlug, localCode)
 		}
 	}
 

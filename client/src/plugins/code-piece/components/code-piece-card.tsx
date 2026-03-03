@@ -8,9 +8,9 @@ import { useState } from 'react'
 interface CodePieceCardProps {
 	children?: React.ReactNode
 	codePiece: CodePieceDTO
-	onDelete: (id: number) => void
-	onToggleSolved: (id: number, isSolved: boolean) => void
-	onUpdateTitle: (id: number, title: string) => void
+	onDelete: (sourcePostSlug: string) => void
+	onToggleSolved: (sourcePostSlug: string, isSolved: boolean) => void
+	onUpdateTitle: (sourcePostSlug: string, title: string) => void
 	isSelected?: boolean
 }
 
@@ -29,7 +29,7 @@ export default function CodePieceCard({
 
 	const handleSaveTitle = () => {
 		if (editedTitle.trim() !== codePiece.title) {
-			onUpdateTitle(codePiece.id, editedTitle.trim())
+			onUpdateTitle(codePiece.sourcePostSlug, editedTitle.trim())
 		}
 		setIsEditingTitle(false)
 	}
@@ -110,7 +110,7 @@ export default function CodePieceCard({
 								{codePiece.language}
 							</span>
 							<button
-								onClick={() => onToggleSolved(codePiece.id, !codePiece.isSolved)}
+								onClick={() => onToggleSolved(codePiece.sourcePostSlug, !codePiece.isSolved)}
 								className={`flex cursor-pointer items-center justify-center rounded px-2 py-1 text-xs font-medium transition-colors ${
 									codePiece.isSolved
 										? 'bg-green-600 text-white hover:bg-green-700'
@@ -122,7 +122,7 @@ export default function CodePieceCard({
 							<button
 								onClick={() => {
 									if (confirm('Are you sure you want to delete this code piece?')) {
-										onDelete(codePiece.id)
+										onDelete(codePiece.sourcePostSlug)
 									}
 								}}
 								className="flex min-h-10 min-w-10 cursor-pointer items-center justify-center text-red-400 transition-colors hover:text-red-300"
