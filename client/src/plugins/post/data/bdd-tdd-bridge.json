@@ -193,7 +193,8 @@
 				"language": "typescript",
 				"title": "Your Turn: Complete the Test Code",
 				"code": "import { describe, it } from '@jest/globals'\n\ndescribe('User Registration', () => {\n  describe('Successful registration', () => {\n    it('should return 201 and user ID for new email', async () => {\n      // Given\n      \n      // When\n      \n      // Then\n      \n    })\n  })\n  \n  describe('Email already registered', () => {\n    it('should return 409 for existing email', async () => {\n      // Given\n      \n      // When\n      \n      // Then\n      \n    })\n  })\n})",
-				"editable": true
+				"editable": true,
+				"guarded": true
 			}
 		},
 		{
@@ -207,7 +208,8 @@
 							"language": "typescript",
 							"title": "Solution",
 							"code": "import { describe, it } from '@jest/globals'\n\ndescribe('User Registration', () => {\n  describe('Successful registration', () => {\n    it('should return 201 and user ID for new email', async () => {\n      // Given\n      const email = 'newuser@example.com'\n      const password = 'securePass123'\n      \n      // When\n      const response = await request(app)\n        .post('/register')\n        .send({ email, password })\n      \n      // Then\n      expect(response.status).toBe(201)\n      expect(response.body).toHaveProperty('userId')\n      expect(response.body.userId).toBeTruthy()\n    })\n  })\n  \n  describe('Email already registered', () => {\n    it('should return 409 for existing email', async () => {\n      // Given\n      const existingEmail = 'existing@example.com'\n      const password = 'anyPassword'\n      \n      // When\n      const response = await request(app)\n        .post('/register')\n        .send({ email: existingEmail, password })\n      \n      // Then\n      expect(response.status).toBe(409)\n      expect(response.body.error).toBe('Email already registered')\n    })\n  })\n})",
-							"editable": false
+							"editable": false,
+							"guarded": true
 						}
 					},
 					{

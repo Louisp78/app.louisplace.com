@@ -7,6 +7,7 @@ import PostLink from './post-link'
 import HiddenSection from '@/components/hidden-section'
 import { CodeBlock } from '@/plugins/code-piece'
 
+// TODO: update required arg and delete optional
 export default function PostContent({
 	component,
 	postSlug,
@@ -74,6 +75,7 @@ export default function PostContent({
 					code={component.data.code}
 					title={component.data.title}
 					editable={component.data.editable}
+					guarded={component.data.guarded}
 					sourcePostSlug={postSlug}
 				/>
 			)

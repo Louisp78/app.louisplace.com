@@ -55,6 +55,7 @@ export type PostDataContent =
 				showLineNumbers?: boolean
 				theme?: 'vs-dark' | 'light'
 				editable?: boolean
+				guarded?: boolean
 			}
 	  }
 	| {
