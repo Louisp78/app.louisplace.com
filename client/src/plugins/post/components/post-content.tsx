@@ -7,13 +7,12 @@ import PostLink from './post-link'
 import HiddenSection from '@/components/hidden-section'
 import { CodeBlock } from '@/plugins/code-piece'
 
-// TODO: update required arg and delete optional
 export default function PostContent({
 	component,
 	postSlug,
 }: {
 	component: PostDataContent
-	postSlug?: string
+	postSlug: string
 }) {
 	if (typeof component === 'string') {
 		return <p dangerouslySetInnerHTML={{ __html: parseInlineMarkdown(component) }} />

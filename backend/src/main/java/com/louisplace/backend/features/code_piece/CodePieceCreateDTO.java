@@ -18,6 +18,4 @@ public class CodePieceCreateDTO {
     @NotBlank
     @Pattern(regexp = "^[a-z0-9]+(?:-[a-z0-9]+)*$", message = "sourcePostSlug must be kebab-case")
     private String sourcePostSlug;
-    private String exerciseContext;
-    private String solutionCode;
 }

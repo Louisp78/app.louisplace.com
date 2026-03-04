@@ -18,8 +18,6 @@ interface CodeBlockProps {
 	editable?: boolean
 	guarded?: boolean
 	sourcePostSlug: string
-	exerciseContext?: string
-	solutionCode?: string
 }
 
 export default function CodeBlock({
@@ -29,8 +27,6 @@ export default function CodeBlock({
 	editable = false,
 	guarded = false,
 	sourcePostSlug,
-	exerciseContext,
-	solutionCode,
 }: CodeBlockProps) {
 	const [localCode, setLocalCode] = useState(code)
 	const { mutate: createCodePiece, isPending } = useCreateCodePiece()
@@ -94,8 +90,6 @@ export default function CodeBlock({
 									language,
 									title: title || `${language} code`,
 									sourcePostSlug,
-									exerciseContext,
-									solutionCode,
 								},
 								{
 									onSuccess: () => {

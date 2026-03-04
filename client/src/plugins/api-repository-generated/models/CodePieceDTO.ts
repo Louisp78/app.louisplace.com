@@ -51,18 +51,6 @@ export interface CodePieceDTO {
 	sourcePostSlug?: string
 	/**
 	 *
-	 * @type {string}
-	 * @memberof CodePieceDTO
-	 */
-	exerciseContext?: string
-	/**
-	 *
-	 * @type {string}
-	 * @memberof CodePieceDTO
-	 */
-	solutionCode?: string
-	/**
-	 *
 	 * @type {boolean}
 	 * @memberof CodePieceDTO
 	 */
@@ -102,8 +90,6 @@ export function CodePieceDTOFromJSONTyped(json: any, ignoreDiscriminator: boolea
 		language: json['language'] == null ? undefined : json['language'],
 		title: json['title'] == null ? undefined : json['title'],
 		sourcePostSlug: json['sourcePostSlug'] == null ? undefined : json['sourcePostSlug'],
-		exerciseContext: json['exerciseContext'] == null ? undefined : json['exerciseContext'],
-		solutionCode: json['solutionCode'] == null ? undefined : json['solutionCode'],
 		isSolved: json['isSolved'] == null ? undefined : json['isSolved'],
 		createdAt: json['createdAt'] == null ? undefined : new Date(json['createdAt']),
 		updatedAt: json['updatedAt'] == null ? undefined : new Date(json['updatedAt']),
@@ -128,8 +114,6 @@ export function CodePieceDTOToJSONTyped(
 		language: value['language'],
 		title: value['title'],
 		sourcePostSlug: value['sourcePostSlug'],
-		exerciseContext: value['exerciseContext'],
-		solutionCode: value['solutionCode'],
 		isSolved: value['isSolved'],
 		createdAt: value['createdAt'] == null ? value['createdAt'] : value['createdAt'].toISOString(),
 		updatedAt: value['updatedAt'] == null ? value['updatedAt'] : value['updatedAt'].toISOString(),

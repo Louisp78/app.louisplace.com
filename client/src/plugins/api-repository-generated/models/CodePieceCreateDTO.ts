@@ -43,18 +43,6 @@ export interface CodePieceCreateDTO {
 	 * @memberof CodePieceCreateDTO
 	 */
 	sourcePostSlug: string
-	/**
-	 *
-	 * @type {string}
-	 * @memberof CodePieceCreateDTO
-	 */
-	exerciseContext?: string
-	/**
-	 *
-	 * @type {string}
-	 * @memberof CodePieceCreateDTO
-	 */
-	solutionCode?: string
 }
 
 /**
@@ -81,8 +69,6 @@ export function CodePieceCreateDTOFromJSONTyped(
 		language: json['language'] == null ? undefined : json['language'],
 		title: json['title'] == null ? undefined : json['title'],
 		sourcePostSlug: json['sourcePostSlug'],
-		exerciseContext: json['exerciseContext'] == null ? undefined : json['exerciseContext'],
-		solutionCode: json['solutionCode'] == null ? undefined : json['solutionCode'],
 	}
 }
 
@@ -103,7 +89,5 @@ export function CodePieceCreateDTOToJSONTyped(
 		language: value['language'],
 		title: value['title'],
 		sourcePostSlug: value['sourcePostSlug'],
-		exerciseContext: value['exerciseContext'],
-		solutionCode: value['solutionCode'],
 	}
 }

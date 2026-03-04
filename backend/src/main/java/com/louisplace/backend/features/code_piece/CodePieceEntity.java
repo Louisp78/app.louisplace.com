@@ -46,16 +46,6 @@ public class CodePieceEntity implements Serializable {
 
     @Setter
     @Getter
-    @Column(name = "exercise_context")
-    private String exerciseContext;
-
-    @Setter
-    @Getter
-    @Column(columnDefinition = "TEXT")
-    private String solutionCode;
-
-    @Setter
-    @Getter
     @Column(name = "is_solved")
     private Boolean isSolved = false;
 

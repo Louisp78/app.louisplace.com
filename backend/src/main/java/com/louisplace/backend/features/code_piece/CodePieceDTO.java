@@ -12,8 +12,6 @@ public class CodePieceDTO {
     private String language;
     private String title;
     private String sourcePostSlug;
-    private String exerciseContext;
-    private String solutionCode;
     private Boolean isSolved;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -24,8 +22,6 @@ public class CodePieceDTO {
         this.language = entity.getLanguage();
         this.title = entity.getTitle();
         this.sourcePostSlug = entity.getSourcePostSlug();
-        this.exerciseContext = entity.getExerciseContext();
-        this.solutionCode = entity.getSolutionCode();
         this.isSolved = entity.getIsSolved();
         this.createdAt = entity.getCreatedAt();
         this.updatedAt = entity.getUpdatedAt();

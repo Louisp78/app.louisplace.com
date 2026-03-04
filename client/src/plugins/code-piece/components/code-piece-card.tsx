@@ -100,9 +100,6 @@ export default function CodePieceCard({
 									<Edit2 size={16} />
 								</button>
 							</div>
-							{codePiece.exerciseContext && (
-								<p className="mt-1 text-xs text-gray-400">from {codePiece.exerciseContext}</p>
-							)}
 						</div>
 
 						<div className="flex flex-wrap items-center gap-2">
