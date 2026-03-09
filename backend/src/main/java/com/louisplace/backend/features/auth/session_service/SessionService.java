@@ -22,4 +22,17 @@ public class SessionService implements ISessionProvider {
         return securityContext;
     }
 
+    public String getPrincipal() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context == null || context.getAuthentication() == null) {
+            return null;
+        }
+        return (String) context.getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public void logout() {
+        SecurityContextHolder.clearContext();
+    }
+
 }

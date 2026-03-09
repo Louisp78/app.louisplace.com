@@ -1,7 +1,7 @@
-import { authContainer, AuthProvider } from '@/features/auth'
+import { authContainer, AuthProviderEnum } from '@/plugins/auth/index.server'
 import { NextResponse } from 'next/server'
 
 export async function GET(_: Request, { params }: { params: Promise<{ provider: string }> }) {
-	const provider: AuthProvider = (await params).provider as AuthProvider
+	const provider: AuthProviderEnum = (await params).provider as AuthProviderEnum
 	return NextResponse.redirect(await authContainer.service().getAuthCodeUrlWithParams(provider))
 }

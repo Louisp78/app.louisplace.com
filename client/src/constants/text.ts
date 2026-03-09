@@ -14,6 +14,19 @@ const TEXT = {
 		url: 'https://github.com/Louisp78/louisplace.com',
 		iconAlt: 'GitHub Logo',
 	},
+	login: {
+		signIn: 'Sign in',
+		googleButton: 'Sign in with Google',
+		githubButton: 'Sign in with GitHub',
+	},
+	codeBlock: {
+		restrictedContent: 'This interactive code editor is only available for registered users.',
+		signInPrompt: 'Sign in to edit and save your code',
+	},
+	userInfoPage: {
+		successUpdate: 'Profile updated successfully!',
+		errorUpdate: 'Failed to update profile.',
+	},
 }
 
 export default TEXT

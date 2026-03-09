@@ -6,6 +6,13 @@
 import type { Config } from 'jest'
 
 const config: Config = {
+	// Use ts-jest preset to transform TypeScript and TSX/JSX
+	preset: 'ts-jest',
+	globals: {
+		'ts-jest': {
+			tsconfig: 'tsconfig.jest.json',
+		},
+	},
 	// All imported modules in your tests should be mocked automatically
 	// automock: false,
 
@@ -149,6 +156,18 @@ const config: Config = {
 
 	// The test environment that will be used for testing
 	testEnvironment: 'jsdom',
+	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+	transform: {
+		'^.+\\.(ts|tsx|js|jsx)$': 'ts-jest',
+	},
+
+	// Resolve path aliases and mock static asset imports
+	moduleNameMapper: {
+		'^@/(.*)$': '<rootDir>/src/$1',
+		'\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+	},
+
+	moduleDirectories: ['node_modules', 'src'],
 
 	// Options that will be passed to the testEnvironment
 	// testEnvironmentOptions: {},

@@ -1,40 +1,49 @@
 package com.louisplace.backend.features.auth.auth_service;
 
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
-import com.louisplace.backend.features.auth.UserEntity;
+import com.louisplace.backend.features.auth.auth_strategy.AuthUserInfoDTO;
 import com.louisplace.backend.features.auth.auth_strategy.IAuthStragegy;
+import com.louisplace.backend.features.auth.session_service.ISessionProvider;
 import com.louisplace.backend.features.user.IUserRepository;
+import com.louisplace.backend.features.user.UserEntity;
 
 @Service
 public class AuthService implements IAuthProvider {
 
     private final IUserRepository userRepository;
     private final IAuthStragegy strategy;
+    private final ISessionProvider sessionService;
 
-    public AuthService(IUserRepository userRepository, IAuthStragegy strategy) {
+    public AuthService(IUserRepository userRepository, IAuthStragegy strategy, ISessionProvider sessionService) {
         this.userRepository = userRepository;
         this.strategy = strategy;
+        this.sessionService = sessionService;
     }
 
     @Override
     public UserEntity authenticate(String identifier, String credential) {
-        Map<String, Object> userInfo = strategy.authenticate(identifier, credential);
+        AuthUserInfoDTO userInfo = strategy.authenticate(identifier, credential);
 
-        String name = (String) userInfo.get("name");
-        String email = (String) userInfo.get("email");
+        String firstName = userInfo.getFirstName();
+        String lastName = userInfo.getLastName();
+        String email = userInfo.getEmail();
         UserEntity user = userRepository.findByEmail(email)
                 .orElseGet(() -> {
                     UserEntity newUser = new UserEntity();
-                    newUser.setName(name);
+                    newUser.setFirstName(firstName);
+                    newUser.setLastName(lastName);
                     newUser.setEmail(email);
-                    userRepository.save(newUser);
-                    return newUser;
+                    UserEntity savedUser = userRepository.save(newUser);
+                    return savedUser;
                 });
 
         return user;
+    }
+
+    @Override
+    public void logout() {
+        sessionService.logout();
     }
 
 }

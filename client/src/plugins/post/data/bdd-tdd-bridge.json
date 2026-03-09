@@ -1,0 +1,237 @@
+{
+	"metadata": {
+		"title": "Bridging Product and Engineering with BDD and TDD",
+		"summary": "Explore how Behavior-Driven Development (BDD) and Test-Driven Development (TDD) connect Product and Engineering, reducing ambiguity, aligning expectations, and turning product specifications into automated tests.",
+		"image": {
+			"src": "/bdd-tdd-bridge.png",
+			"height": 1024,
+			"width": 1536,
+			"alt": "BDD and TDD bridge illustration"
+		},
+		"slug": "bdd-tdd-bridge",
+		"author": "Louis Place",
+		"publishedAt": "2025-12-20T00:00:00Z",
+		"category": "Product Development",
+		"tags": ["BDD", "TDD", "Product Engineering", "Software Development"],
+		"estimatedReadingTimeMinutes": 6
+	},
+	"content": [
+		{
+			"type": "title",
+			"data": {
+				"text": "🔎 Bridging Product and Engineering: How BDD and TDD Work Together"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "A product task specification isn’t just a high-level description — it’s the foundation for aligning Product Owners, Developers, and QA. To ensure everyone implements the same requirement, specifications must remove ambiguity and cover normal cases, edge cases, and complex interactions. This is where **BDD (Behavior-Driven Development)** comes in."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "BDD structures task definition around expected system behaviors, expressed in concrete examples using the *Given / When / Then* format. By defining behaviors rather than implementation, BDD creates a **clear contract**: Product Owners describe what the system should do, and Developers and QA can unambiguously implement and validate it."
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "title",
+					"data": {
+						"text": "Example of a BDD-style ticket:"
+					}
+				},
+				"items": [
+					"Feature: User Authentication",
+					"Scenario: Successful login  \nGiven a registered user with email X and password Y  \nWhen they send these credentials via POST /login  \nThen the response is 200 OK  \nAnd the payload contains a valid JWT token",
+					"Scenario: Wrong password  \nGiven a registered user with email X  \nWhen they send email X and an incorrect password  \nThen the response is 401 Unauthorized  \nAnd the error message says “Incorrect password”",
+					"Scenario: Unregistered email  \nGiven no user exists with email Z  \nWhen they send email Z and any password  \nThen the response is 404 Not Found"
+				]
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Each scenario defines precise expected behaviors, covering edge cases and errors. Once BDD scenarios are written, **TDD (Test-Driven Development)** can turn them into automated tests. This creates a feedback loop: Product defines the behavior → BDD scenarios → Developers write tests based on scenarios → TDD → Implementation is guided and validated by tests."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "In other words, **BDD provides the “what” and TDD provides the “how”** — together, they bridge Product and Engineering, aligning expectations with execution."
+			}
+		},
+		{
+			"type": "title",
+			"data": {
+				"text": "📊 Evidence from Industry"
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "link",
+					"data": {
+						"href": "https://www.microsoft.com/en-us/research/wp-content/uploads/2009/10/Realizing-Quality-Improvement-Through-Test-Driven-Development-Results-and-Experiences-of-Four-Industrial-Teams-nagappan_tdd.pdf",
+						"content": {
+							"type": "subtitle",
+							"data": {
+								"text": "TDD Study Nagappan et al., 2008 - Microsoft Research :"
+							}
+						}
+					}
+				},
+				"items": [
+					"TDD reduced defects in production by 40-90%.",
+					"Improved code modularity and maintainability.",
+					"Productivity initially decreases but recovers as developers gain experience."
+				]
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "link",
+					"data": {
+						"href": "https://www.researchgate.net/publication/3188484_On_the_effectiveness_of_the_test-first_approach_to_programming",
+						"content": {
+							"type": "subtitle",
+							"data": {
+								"text": "TDD Study Erdogmus et al., 2005 - IBM Research :"
+							}
+						}
+					}
+				},
+				"items": [
+					"Test-first programming improved test coverage.",
+					"No significant difference in development time.",
+					"Reduced defect density in the resulting software."
+				]
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "link",
+					"data": {
+						"href": "https://pragprog.com/titles/hwcuc2/the-cucumber-book-second-edition/",
+						"content": {
+							"type": "subtitle",
+							"data": {
+								"text": "BDD with Cucumber - Astels et al., 2018 :"
+							}
+						}
+					}
+				},
+				"items": [
+					"BDD improved collaboration between developers, testers, and business stakeholders.",
+					"Explicit “Given/When/Then” scenarios reduce misunderstandings and specification ambiguity."
+				]
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "title",
+					"data": {
+						"text": "🧩 Key Takeaways"
+					}
+				},
+				"items": [
+					"BDD ensures unambiguous product specifications.",
+					"TDD transforms these specifications into automated, executable tests.",
+					"Together, they reduce defects, improve design, and create a shared understanding across Product, Engineering, and QA."
+				]
+			}
+		},
+		{
+			"type": "code",
+			"data": {
+				"language": "typescript",
+				"title": "Example: BDD Scenario as Test Code",
+				"code": "import { describe, it } from '@jest/globals'\n\ndescribe('User Authentication', () => {\n  describe('Successful login', () => {\n    it('should return 200 and JWT token for valid credentials', async () => {\n      // Given\n      const email = 'user@example.com'\n      const password = 'correctPassword'\n      \n      // When\n      const response = await request(app)\n        .post('/login')\n        .send({ email, password })\n      \n      // Then\n      expect(response.status).toBe(200)\n      expect(response.body).toHaveProperty('token')\n      expect(response.body.token).toBeTruthy()\n    })\n  })\n  \n  describe('Wrong password', () => {\n    it('should return 401 for incorrect password', async () => {\n      // Given\n      const email = 'user@example.com'\n      const wrongPassword = 'wrongPassword'\n      \n      // When\n      const response = await request(app)\n        .post('/login')\n        .send({ email, password: wrongPassword })\n      \n      // Then\n      expect(response.status).toBe(401)\n      expect(response.body.error).toBe('Incorrect password')\n    })\n  })\n})",
+				"editable": false
+			}
+		},
+		{
+			"type": "title",
+			"data": {
+				"text": "✏️ Exercise: Apply What You've Learned"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Now it's your turn! Below is a BDD scenario for a **User Registration** feature. Try to translate it into test code following the Given/When/Then structure."
+			}
+		},
+		{
+			"type": "ul",
+			"data": {
+				"header": {
+					"type": "subtitle",
+					"data": {
+						"text": "BDD Scenario:"
+					}
+				},
+				"items": [
+					"Feature: User Registration",
+					"Scenario: Successful registration  \nGiven no user exists with email \"newuser@example.com\"  \nWhen they send a POST /register with email \"newuser@example.com\" and password \"securePass123\"  \nThen the response is 201 Created  \nAnd the payload contains a user ID",
+					"Scenario: Email already registered  \nGiven a user exists with email \"existing@example.com\"  \nWhen they send a POST /register with email \"existing@example.com\"  \nThen the response is 409 Conflict  \nAnd the error message says \"Email already registered\""
+				]
+			}
+		},
+		{
+			"type": "code",
+			"data": {
+				"language": "typescript",
+				"title": "Your Turn: Complete the Test Code",
+				"code": "import { describe, it } from '@jest/globals'\n\ndescribe('User Registration', () => {\n  describe('Successful registration', () => {\n    it('should return 201 and user ID for new email', async () => {\n      // Given\n      \n      // When\n      \n      // Then\n      \n    })\n  })\n  \n  describe('Email already registered', () => {\n    it('should return 409 for existing email', async () => {\n      // Given\n      \n      // When\n      \n      // Then\n      \n    })\n  })\n})",
+				"editable": true,
+				"guarded": true
+			}
+		},
+		{
+			"type": "hidden-section",
+			"data": {
+				"title": "Solution",
+				"items": [
+					{
+						"type": "code",
+						"data": {
+							"language": "typescript",
+							"title": "Solution",
+							"code": "import { describe, it } from '@jest/globals'\n\ndescribe('User Registration', () => {\n  describe('Successful registration', () => {\n    it('should return 201 and user ID for new email', async () => {\n      // Given\n      const email = 'newuser@example.com'\n      const password = 'securePass123'\n      \n      // When\n      const response = await request(app)\n        .post('/register')\n        .send({ email, password })\n      \n      // Then\n      expect(response.status).toBe(201)\n      expect(response.body).toHaveProperty('userId')\n      expect(response.body.userId).toBeTruthy()\n    })\n  })\n  \n  describe('Email already registered', () => {\n    it('should return 409 for existing email', async () => {\n      // Given\n      const existingEmail = 'existing@example.com'\n      const password = 'anyPassword'\n      \n      // When\n      const response = await request(app)\n        .post('/register')\n        .send({ email: existingEmail, password })\n      \n      // Then\n      expect(response.status).toBe(409)\n      expect(response.body.error).toBe('Email already registered')\n    })\n  })\n})",
+							"editable": false,
+							"guarded": true
+						}
+					},
+					{
+						"type": "spaced-content",
+						"data": {
+							"content": "**Key points in this solution:**"
+						}
+					},
+					{
+						"type": "ul",
+						"data": {
+							"items": [
+								"**Given** section declares the test data (email and password variables) that match the BDD scenario preconditions",
+								"**When** section executes the API call using the `request(app)` test helper, mimicking exactly what was described in the BDD scenario",
+								"**Then** section contains assertions that validate both the HTTP status code and response payload structure",
+								"Each test case is isolated in its own `describe` block, matching the BDD scenario structure",
+								"The test expectations directly map to the \"And\" clauses in the BDD scenarios (payload contains user ID, error message matches)"
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+}

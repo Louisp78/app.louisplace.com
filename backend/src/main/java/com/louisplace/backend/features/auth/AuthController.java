@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.louisplace.backend.features.auth.auth_service.AuthService;
 import com.louisplace.backend.features.auth.session_service.SessionService;
+import com.louisplace.backend.features.user.UserDTO;
+import com.louisplace.backend.features.user.UserEntity;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,7 +41,20 @@ public class AuthController {
                                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                                 securityContext);
 
-                UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getEmail());
+                UserDTO userDTO = new UserDTO(user);
                 return ResponseEntity.ok(userDTO);
         }
+
+        @PostMapping("/logout")
+        public ResponseEntity<String> postMethodName(HttpServletRequest request) {
+                authService.logout();
+
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                        session.invalidate();
+                }
+
+                return ResponseEntity.ok("Logged out successfully");
+        }
+
 }

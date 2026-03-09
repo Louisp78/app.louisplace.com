@@ -12,6 +12,9 @@ const compat = new FlatCompat({
 })
 
 const eslintConfig = [
+	{
+		ignores: ['src/plugins/api-repository-generated/**'],
+	},
 	...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
 	{
 		files: ['**/*.ts', '**/*.tsx'],
@@ -26,19 +29,29 @@ const eslintConfig = [
 			},
 		},
 		rules: {
-			'no-console': 'error',
+			'no-console': [
+				'warn', {
+					allow: ['warn', 'error'],
+				},
+			],
 			'prettier/prettier': 'error',
 			'no-restricted-imports': [
-            	'error',
-					{
-						patterns: [
-							{
-                				group: ['@/features/*/*', '!@/features/*/index'],								
-								message: 'Import from feature barrel file (@/features/*/index) instead.',
-							},
-						],
-					},
-        	],
+				'error',
+				{
+					patterns: [
+						{
+							group: [
+								'@/plugins/*/*',
+								'!@/plugins/*/index.client',
+								'!@/plugins/*/index.server',
+								'!@/plugins/*/index',
+								'!@/plugins/api-repository-generated/**',
+							],
+							message: 'Import from feature barrel file (@/plugins/*/index) instead.',
+						},
+					],
+				},
+			],
 		},
 	},
 

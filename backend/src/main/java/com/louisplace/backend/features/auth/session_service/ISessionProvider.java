@@ -4,4 +4,6 @@ import org.springframework.security.core.context.SecurityContext;
 
 public interface ISessionProvider {
     SecurityContext getSession(String email);
+
+    void logout();
 }

@@ -1,6 +1,9 @@
+import AppBar from '@/components/app-bar/app-bar'
 import Footer from '@/components/footer'
 import TEXT from '@/constants/text'
 import fontService from '@/font/font.service'
+import { QueryClientCustomProvider } from '@/plugins/api-config'
+import { AuthProvider } from '@/plugins/auth/index.client'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -20,8 +23,13 @@ export default function RootLayout({
 			className={`${fontService.fontBase.className} ${fontService.fontTitle.variable}`}
 		>
 			<body className={`overflow-y-auto antialiased`}>
-				<div className="min-h-screen">{children}</div>
-				<Footer />
+				<QueryClientCustomProvider>
+					<AuthProvider>
+						<AppBar />
+						<div className="min-h-screen pt-16">{children}</div>
+						<Footer />
+					</AuthProvider>
+				</QueryClientCustomProvider>
 			</body>
 		</html>
 	)
