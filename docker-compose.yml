@@ -1,48 +1,9 @@
 services:
-  apache:
-    build: ./apache
-    container_name: apache_server
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./apache/certs:/etc/apache2/certs:ro
-      - ./apache/conf:/usr/local/apache2/conf/extra:ro
-    depends_on:
-      - client
-
   client:
     image: ${DOCKERHUB_USERNAME}/louisplace-client:latest
     container_name: next_app
     ports:
-      - "3000:3000"
+      - "80:3000"
     environment:
       NODE_ENV: production
     restart: always
-    depends_on:
-      - backend
-
-  backend:
-    image: ${DOCKERHUB_USERNAME}/louisplace-backend:latest
-    container_name: spring_boot_app
-    env_file:
-      - backend/.env
-      - ./.env.db
-      - ./.env.oauth
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-
-  db:
-    build: ./db
-    container_name: postgres_db
-    ports:
-      - "5432:5432"
-    env_file:
-      - ./.env.db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:

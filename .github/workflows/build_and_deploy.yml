@@ -34,55 +34,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build and push backend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          file: ./backend/dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/louisplace-backend:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create .env files
-        run: |
-          mkdir -p env_files/backend
-          cat > env_files/backend/.env << 'EOF'
-          ${{ secrets.BACKEND_ENV }}
-          EOF
-          cat > env_files/.env.db << 'EOF'
-          ${{ secrets.ENV_DB }}
-          EOF
-          cat > env_files/.env.oauth << 'EOF'
-          ${{ secrets.ENV_OAUTH }}
-          EOF
-
-      - name: Copy docker-compose and dockerfiles to VPS
+      - name: Copy docker-compose to VPS
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose.yml,apache/,db/"
+          source: "docker-compose.yml"
           target: "~/app/"
-
-      - name: Copy env files to VPS
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "env_files/backend/.env,env_files/.env.db,env_files/.env.oauth"
-          target: "~/app/"
-          strip_components: 1
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
@@ -97,7 +63,7 @@ jobs:
             echo "Logging in to Docker Hub..."
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             echo "Pulling latest images..."
-            docker compose pull client backend
+            docker compose pull client
             echo "Restarting services..."
             docker compose up -d
             echo "Deployment complete!"

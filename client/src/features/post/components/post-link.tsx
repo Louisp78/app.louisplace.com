@@ -1,5 +1,5 @@
 import React from 'react'
-import ArrowUpRight from './arrow-up-right'
+import { ArrowUpRight } from 'lucide-react'
 
 interface LinkProps {
 	href: string

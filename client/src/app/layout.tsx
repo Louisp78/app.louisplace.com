@@ -1,3 +1,4 @@
+import AppBar from '@/components/app-bar/app-bar'
 import Footer from '@/components/footer'
 import TEXT from '@/constants/text'
 import fontService from '@/font/font.service'
@@ -20,7 +21,10 @@ export default function RootLayout({
 			className={`${fontService.fontBase.className} ${fontService.fontTitle.variable}`}
 		>
 			<body className={`overflow-y-auto antialiased`}>
-				<div className="min-h-screen">{children}</div>
+				<div className="flex min-h-screen flex-col">
+					<AppBar />
+					<div className="flex-1">{children}</div>
+				</div>
 				<Footer />
 			</body>
 		</html>
