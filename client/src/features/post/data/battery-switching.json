@@ -1,0 +1,38 @@
+{
+	"metadata": {
+		"title": "Switching High-Current Battery Power with a MOSFET",
+		"summary": "Why a normal switch can't handle the power a drone battery dumps at start-up, and how a MOSFET — bolted to an aluminium heatsink — solves it.",
+		"image": {
+			"src": "/battery-switching.png",
+			"height": 900,
+			"width": 1600,
+			"alt": "Abstract render of a MOSFET power switching circuit"
+		},
+		"slug": "battery-switching",
+		"author": "Louis Place",
+		"publishedAt": "2026-07-19T00:00:00Z",
+		"category": "Electronics",
+		"tags": ["Electronics", "MOSFET", "Power Systems", "Underwater Robotics"],
+		"estimatedReadingTimeMinutes": 2
+	},
+	"content": [
+		{
+			"type": "title",
+			"data": {
+				"text": "Switching high-current battery power safely"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "The battery will release a lot of energy for the drone when it powers on. This energy is complicated to handle for a normal switch, which is why we need a **MOSFET** transistor to handle the power switching. This kind of transistor only requires a small amount of power to switch, instead of the large amount of power needed by a standard switch."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "The first thing to do is cut a piece of aluminium plate, since I expect a lot of heat release. Even a good MOSFET has a tiny bit of resistance when it's *on*, and at high current it still makes some heat — so the transistor bolts to the aluminium, which acts as a heatsink."
+			}
+		}
+	]
+}

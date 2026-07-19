@@ -3,9 +3,7 @@
 LOG_DIR="/tmp/app_logs"
 mkdir -p $LOG_DIR
 
-docker logs -f spring_boot_app > $LOG_DIR/backend.log 2>&1 &
-
-docker logs -f postgres_db > $LOG_DIR/database.log 2>&1 &
+docker logs -f next_app > $LOG_DIR/client.log 2>&1 &
 
 while true; do
   echo "=== $(date '+%Y-%m-%d %H:%M:%S') ===" >> $LOG_DIR/docker_stats.log

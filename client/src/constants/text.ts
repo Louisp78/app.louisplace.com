@@ -1,8 +1,17 @@
 const TEXT = {
+	brand: {
+		name: 'Louis Place',
+	},
 	metadata: {
-		title: 'Louis Place - Software Engineer Blog',
+		title: 'Louis Place - Underwater Robotics Blog',
 		description:
-			'Learnings software engineering, with basics and advanced topics. Like architecture, clean code, history of software engineering, and more.',
+			'Notes and write-ups from building underwater robots — ROVs, AUVs, and everything that goes into getting a machine to survive and work below the surface.',
+	},
+	home: {
+		tagline: 'Underwater robotics, one project at a time.',
+		intro:
+			"I design and build underwater robots — ROVs, AUVs, and the electronics, control software, and hardware that make them work. This is where I write up what I'm building, what broke, and what I learned.",
+		emptyState: 'No articles yet — the first project write-up is coming soon.',
 	},
 	footer: {
 		copyright: 'Louis Place. All rights reserved.',

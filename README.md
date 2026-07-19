@@ -2,62 +2,52 @@
 
 [![Build and Deploy Pipeline](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml)
 
-Lightweight personal stack for louisplace.com — Next.js frontend + Spring Boot backend, packaged with Docker Compose.
+A static blog about underwater robotics projects — a Next.js frontend with articles stored directly in the codebase, no backend or database.
 
 ## Quick overview
 
-- Frontend: `client` (Next.js)
-- Backend: `backend` (Spring Boot)
-- Orchestration: `docker-compose.yml` at repository root
+- Frontend: `client` (Next.js) — the entire site
+- Articles: JSON files under `client/src/features/post/data`
+- Orchestration: `docker-compose.yml` at repository root (runs `client`, exposed on port 80; HTTPS is terminated by Cloudflare)
 
 ## Prerequisites
 
 - Docker & Docker Compose
-- Ports 3000 and 8080 must be free on your machine (or update compose config)
+- Port 3000 must be free on your machine (or update compose config)
 
 ## Prepare environment files
 
-This repo includes example env files. Copy them to enable sensible defaults for local runs:
+This repo includes an example env file. Copy it to enable sensible defaults for local runs:
 
 ```bash
 cp ./client/.env.example ./client/.env
-cp ./backend/.env.example ./backend/.env
-cp .env.db.example .env.db
-cp .env.oauth.example .env.oauth
 ```
-
-Edit those copies to override any values you need (database credentials, OAuth secrets, etc.).
 
 ## Run (recommended)
 
-Runs `docker compose up -d --build` and brings the frontend + backend up in detached mode.
+```bash
+docker compose up -d --build
+```
 
 ## Run locally (dev/debug)
 
-- To start just the frontend for local development, use the `client` package scripts (requires Node):
+To start the frontend for local development (requires Node):
 
 ```bash
 cd client
-pnpm install    # or npm/yarn
+pnpm install
 pnpm dev
 ```
 
-- To run both services with Docker Compose (fast way to replicate production locally):
+## Writing a new article
 
-```bash
-docker compose up --build
-```
+Add a new JSON file under `client/src/features/post/data` following the shape defined in `client/src/features/post/post.d.ts`, then it will show up on the homepage automatically.
 
 ## Notes & tips
 
-- Use `./deploy.sh` for simple deploys; it expects you to be on a machine with Docker installed and authenticated if you pull private images.
 - If you want site-wide defaults for styling, check `client/src/app/globals.css`.
 
 ## Troubleshooting
 
-- If ports are in use, either stop the occupying service or change ports in `docker-compose.yml`.
+- If port 3000 is in use, either stop the occupying service or change the port in `docker-compose.yml`.
 - Install recommended vscode extensions.
-
----
-
-If you'd like, I can also add a one-command script to bootstrap the env files and run the stack (example: `scripts/start-local.sh`).
