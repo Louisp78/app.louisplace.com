@@ -6,14 +6,13 @@ A static blog about underwater robotics projects — a Next.js frontend with art
 
 ## Quick overview
 
-- Frontend: `client` (Next.js) — the entire site
+- Frontend: `client` (Next.js) — the entire site, built as a fully static export (`output: 'export'`)
 - Articles: JSON files under `client/src/features/post/data`
-- Orchestration: `docker-compose.yml` at repository root (runs `client`, exposed on port 80; HTTPS is terminated by Cloudflare)
+- Deployment: GitHub Actions builds the static site, uploads the exported `out/` folder to the VPS over SSH, and serves it with a tiny `nginx:alpine` container on port 80 (HTTPS is terminated by Cloudflare). No repo, Node runtime, or database lives on the VPS.
 
 ## Prerequisites
 
-- Docker & Docker Compose
-- Port 3000 must be free on your machine (or update compose config)
+- Node + pnpm (for local development)
 
 ## Prepare environment files
 
@@ -23,20 +22,21 @@ This repo includes an example env file. Copy it to enable sensible defaults for 
 cp ./client/.env.example ./client/.env
 ```
 
-## Run (recommended)
-
-```bash
-docker compose up -d --build
-```
-
 ## Run locally (dev/debug)
 
-To start the frontend for local development (requires Node):
+To start the frontend for local development:
 
 ```bash
 cd client
 pnpm install
 pnpm dev
+```
+
+## Build the static site
+
+```bash
+cd client
+pnpm build   # outputs a fully static site to client/out
 ```
 
 ## Writing a new article
@@ -47,7 +47,11 @@ Add a new JSON file under `client/src/features/post/data` following the shape de
 
 - If you want site-wide defaults for styling, check `client/src/app/globals.css`.
 
+## Deployment
+
+Deploys run from `.github/workflows/build_and_deploy.yml` on `workflow_dispatch`, or when a PR whose title contains `[BUILD]` is merged. The workflow needs these repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `SSH_PORT`. Optional repository variables `PUBLIC_BASE_URL` / `PUBLIC_URL` set the site's canonical URL for metadata (falls back to `http://localhost:3000`).
+
 ## Troubleshooting
 
-- If port 3000 is in use, either stop the occupying service or change the port in `docker-compose.yml`.
+- If port 3000 is in use locally, stop the occupying service or run `pnpm dev -- -p <port>`.
 - Install recommended vscode extensions.

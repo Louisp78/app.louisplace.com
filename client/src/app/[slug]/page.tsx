@@ -6,6 +6,11 @@ interface PostPage {
 	params: Promise<{ slug: string }>
 }
 
+export async function generateStaticParams() {
+	const posts = await postContainer.service().getPosts()
+	return posts.map((post) => ({ slug: post.metadata.slug }))
+}
+
 export async function generateMetadata({ params }: PostPage): Promise<Metadata | undefined> {
 	const { slug } = await params
 	const metadata: Metadata | undefined = await postContainer.service().getMetadataFromSlug(slug)
