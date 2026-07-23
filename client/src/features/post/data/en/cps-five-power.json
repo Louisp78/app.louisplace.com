@@ -1,0 +1,96 @@
+{
+	"metadata": {
+		"title": "The Power Distribution System",
+		"summary": "How to switch a system that draws tens of amps on and off without frying an ordinary switch in the process. The CPS Five's MOSFET relay, its aluminium heatsink, and fitting it into the heart of the drone.",
+		"image": {
+			"src": "/cps-five-power-1.jpg",
+			"width": 1600,
+			"height": 1200,
+			"alt": "The CPS Five's MOSFET switching module mounted on its aluminium plate"
+		},
+		"slug": "cps-five-power",
+		"author": "Louis Place",
+		"publishedAt": "2026-07-23T00:00:00Z",
+		"category": "Electronics",
+		"tags": ["Electronics", "MOSFET", "Power Systems", "CPS Five", "Underwater Robotics"],
+		"estimatedReadingTimeMinutes": 3
+	},
+	"content": [
+		{
+			"type": "title",
+			"data": {
+				"text": "The power distribution system"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "While building this underwater robot, I keep running into silly little problems I hadn't seen coming. These past few days I got stuck on one of them: how do you switch a system that draws tens of amps on and off without frying an ordinary switch in the process?"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "The answer was a simple but essential part, a **MOSFET** relay, or more precisely a switching module that can handle the high currents the CPS Five's battery puts out. A regular switch would have burned out after a few cycles, eaten from the inside by the heat."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Yesterday I started by cutting an aluminium plate to act as a heatsink for the relay. Aluminium conducts heat well, so instead of one hot spot the heat spreads across the whole plate. Once the plate was cut, I drilled the mounting holes on each side."
+			}
+		},
+		{
+			"type": "image",
+			"data": {
+				"src": "/cps-five-power-3.jpg",
+				"width": 1600,
+				"height": 1200,
+				"alt": "The aluminium plate, cut and drilled, ready for the relay",
+				"caption": "The aluminium heatsink, cut and drilled to take the relay."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Then came the assembly. I put thermal paste under the MOSFET (a thin but essential layer for good thermal contact) before pressing the relay down onto the aluminium. Then the screws went in, and it finally held together as one piece."
+			}
+		},
+		{
+			"type": "video",
+			"data": {
+				"src": "/cps-five-power.mp4",
+				"poster": "/cps-five-power-poster.jpg",
+				"caption": "Applying thermal paste under the MOSFET, then fixing the relay to the aluminium plate."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "The wiring took a bit of care. After tinning the relay's three pins, I prepped and soldered the power and control wires, then insulated each connection. I added a 10-amp resistor for protection and connected the outer wires to close the control circuit."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Once wired, this module takes its place on the main board, under the big module that holds the Raspberry Pi and the Pixhawk, the brain of the CPS Five. Everything fits into place the way it should."
+			}
+		},
+		{
+			"type": "image",
+			"data": {
+				"src": "/cps-five-power-2.jpg",
+				"width": 1600,
+				"height": 1200,
+				"alt": "The power relay added to the CPS Five's main board",
+				"caption": "The power module attaches to the main board, under the brain of the CPS Five."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Next step? Wire it all together, connecting the main board and the power supply so the current can finally flow from one end to the other."
+			}
+		}
+	]
+}

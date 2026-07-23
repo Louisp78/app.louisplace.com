@@ -1,11 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-	output: 'export',
-	trailingSlash: true,
-	images: {
-		unoptimized: true,
-	},
+	// Server runtime (not static export): the bilingual routing relies on
+	// Next.js middleware, which is incompatible with output: 'export'.
 	eslint: {
 		ignoreDuringBuilds: true,
 	},

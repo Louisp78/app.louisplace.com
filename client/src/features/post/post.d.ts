@@ -46,6 +46,24 @@ export type PostDataContent =
 				content: string
 			}
 	  }
+	| {
+			type: 'image'
+			data: {
+				src: string
+				alt: string
+				width?: number
+				height?: number
+				caption?: string
+			}
+	  }
+	| {
+			type: 'video'
+			data: {
+				src: string
+				poster?: string
+				caption?: string
+			}
+	  }
 	| string
 
 export interface PostMetadata {

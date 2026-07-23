@@ -74,17 +74,11 @@ jobs:
           cache: pnpm
           cache-dependency-path: client/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - name: Build static site
+      - name: Build (server runtime)
         env:
           PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
           PUBLIC_URL: ${{ vars.PUBLIC_URL }}
         run: pnpm build
-      - name: Upload static site artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: static-site
-          path: client/out
-          retention-days: 1
 
   # Deploy only after lint, typecheck, test and build all pass, and only on a
   # push to main. Pull requests run everything above but never deploy.
@@ -93,34 +87,30 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Download static site artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: static-site
-          path: out
+      - uses: actions/checkout@v4
 
-      # Ship the exported site to the VPS. `rm: true` wipes the previous
-      # deploy first so pages removed since last build don't linger.
-      - name: Upload static site to VPS
+      # Ship the client source to the VPS so the image is built there.
+      # `rm: true` wipes the previous copy so files removed since last deploy
+      # don't linger in the build context.
+      - name: Upload client source to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "out/*"
-          target: "~/app/out"
+          source: "client/*"
+          target: "~/app/src"
           strip_components: 1
           rm: true
           overwrite: true
 
-      # Serve the static files with a tiny nginx container. The VPS runs a
+      # Build the image on the VPS and run the Next.js server. The VPS runs a
       # native nginx reverse proxy on :80 (fronted by Cloudflare) that routes
       # app.louisplace.com -> 127.0.0.1:3000, so the container publishes on host
-      # port 3000 rather than binding :80 directly. The old container (and the
-      # legacy next_app container) are removed first; the new one is recreated
-      # every deploy to re-bind the fresh files.
-      - name: Serve on VPS
+      # port 3000. The old container (and the legacy next_app / nginx-based
+      # louisplace containers) are removed first, then recreated fresh.
+      - name: Build and serve on VPS
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -129,14 +119,14 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-            docker pull nginx:alpine
+            cd ~/app/src
+            docker build -f dockerfile -t louisplace-client:latest .
             docker rm -f next_app 2>/dev/null || true
             docker rm -f louisplace 2>/dev/null || true
             docker run -d \
               --name louisplace \
               --restart always \
-              -p 3000:80 \
-              -v "$HOME/app/out:/usr/share/nginx/html:ro" \
-              nginx:alpine
+              -p 3000:3000 \
+              louisplace-client:latest
             docker image prune -f
             echo "Deployment complete!"

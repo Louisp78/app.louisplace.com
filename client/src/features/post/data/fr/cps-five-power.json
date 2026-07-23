@@ -1,0 +1,96 @@
+{
+	"metadata": {
+		"title": "Le Système de Distribution d'Énergie",
+		"summary": "Comment allumer et éteindre un système qui consomme des dizaines d'ampères sans détruire un simple interrupteur au passage. Le relais MOSFET du CPS Five, son dissipateur en aluminium et son intégration au cœur du drone.",
+		"image": {
+			"src": "/cps-five-power-1.jpg",
+			"width": 1600,
+			"height": 1200,
+			"alt": "Module de commutation MOSFET du CPS Five monté sur sa plaque d'aluminium"
+		},
+		"slug": "cps-five-power",
+		"author": "Louis Place",
+		"publishedAt": "2026-07-23T00:00:00Z",
+		"category": "Electronics",
+		"tags": ["Electronics", "MOSFET", "Power Systems", "CPS Five", "Underwater Robotics"],
+		"estimatedReadingTimeMinutes": 3
+	},
+	"content": [
+		{
+			"type": "title",
+			"data": {
+				"text": "Le système de distribution d'énergie"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "En construisant ce robot sous-marin, je tombe souvent sur des problèmes tout bêtes que je n'avais pas anticipés. Ces derniers jours, j'ai buté sur l'un d'eux: comment allumer et éteindre un système qui consomme des dizaines d'ampères sans détruire un simple interrupteur au passage?"
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "La réponse se trouvait dans un composant tout simple mais essentiel, un relais **MOSFET**, ou plus précisément un module de commutation capable de gérer les courants importants que la batterie du CPS Five produit. Un interrupteur classique aurait brûlé en quelques cycles, rongé de l'intérieur par la chaleur."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Hier, j'ai commencé par découper une plaque d'aluminium pour servir de dissipateur au relais. L'aluminium conduit bien la chaleur, donc au lieu d'un point chaud unique, elle se répartit sur toute la plaque. Une fois la plaque découpée, j'ai percé les trous de fixation de chaque côté."
+			}
+		},
+		{
+			"type": "image",
+			"data": {
+				"src": "/cps-five-power-3.jpg",
+				"width": 1600,
+				"height": 1200,
+				"alt": "La plaque d'aluminium découpée et percée, prête à accueillir le relais",
+				"caption": "Le dissipateur en aluminium, découpé et percé pour accueillir le relais."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Puis est venu l'assemblage. J'ai appliqué de la pâte thermique sous le MOSFET, une couche fine mais essentielle pour un bon contact thermique, avant de plaquer le relais sur l'aluminium. Puis j'ai mis les vis, et ça tenait enfin en un seul bloc."
+			}
+		},
+		{
+			"type": "video",
+			"data": {
+				"src": "/cps-five-power.mp4",
+				"poster": "/cps-five-power-poster.jpg",
+				"caption": "Application de la pâte thermique sous le MOSFET, puis fixation du relais sur la plaque d'aluminium."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "L'étape électrique a demandé un peu de soin. Après avoir pré-soudé les trois pins du relais, j'ai préparé et soudé les fils d'alimentation et de contrôle, puis isolé chaque connexion. J'ai ajouté une résistance de 10 ampères pour la protection, et relié les fils extérieurs pour fermer le circuit de commande."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "Une fois câblé, ce module vient prendre sa place sur le circuit principal, sous le grand module qui héberge le Raspberry Pi et le Pixhawk, le cerveau du CPS Five. Tout s'emboîte comme prévu."
+			}
+		},
+		{
+			"type": "image",
+			"data": {
+				"src": "/cps-five-power-2.jpg",
+				"width": 1600,
+				"height": 1200,
+				"alt": "Le relais de puissance ajouté au circuit principal du CPS Five",
+				"caption": "Le module de puissance vient se greffer sur le circuit principal, sous le cerveau du CPS Five."
+			}
+		},
+		{
+			"type": "spaced-content",
+			"data": {
+				"content": "La prochaine étape? Relier le tout, connecter le grand circuit et l'alimentation ensemble, pour que le courant circule enfin d'un bout à l'autre."
+			}
+		}
+	]
+}
