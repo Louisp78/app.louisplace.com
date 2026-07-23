@@ -1,44 +1,106 @@
-name: Build and Deploy
+name: CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    types: [closed]
+    branches: [main]
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./client
+
 jobs:
-  build-and-deploy:
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.pull_request.merged == true &&
-       contains(github.event.pull_request.title, '[BUILD]'))
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
         with:
           version: 10
           run_install: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
           cache-dependency-path: client/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint_format:check
 
-      - name: Install dependencies
-        working-directory: ./client
-        run: pnpm install --frozen-lockfile
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: client/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
       - name: Build static site
-        working-directory: ./client
         env:
           PUBLIC_BASE_URL: ${{ vars.PUBLIC_BASE_URL }}
           PUBLIC_URL: ${{ vars.PUBLIC_URL }}
         run: pnpm build
+      - name: Upload static site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-site
+          path: client/out
+          retention-days: 1
 
-      # Ship the exported `out/` folder to the VPS. `rm: true` wipes the
-      # previous deploy first so pages removed since last build don't linger.
+  # Deploy only after lint, typecheck, test and build all pass, and only on a
+  # push to main. Pull requests run everything above but never deploy.
+  deploy:
+    needs: [lint, typecheck, test, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download static site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: static-site
+          path: out
+
+      # Ship the exported site to the VPS. `rm: true` wipes the previous
+      # deploy first so pages removed since last build don't linger.
       - name: Upload static site to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -46,14 +108,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "client/out/*"
+          source: "out/*"
           target: "~/app/out"
-          strip_components: 2
+          strip_components: 1
           rm: true
           overwrite: true
 
-      # Serve the static files with a tiny nginx container. Recreated on every
-      # deploy so it always re-binds the freshly uploaded folder.
+      # Serve the static files with a tiny nginx container. The old container
+      # (and the previous next_app container) are killed first so port 80 is
+      # free; the new one is recreated every deploy to re-bind the fresh files.
       - name: Serve on VPS
         uses: appleboy/ssh-action@v1
         with:
@@ -64,6 +127,7 @@ jobs:
           script: |
             set -e
             docker pull nginx:alpine
+            docker rm -f next_app 2>/dev/null || true
             docker rm -f louisplace 2>/dev/null || true
             docker run -d \
               --name louisplace \

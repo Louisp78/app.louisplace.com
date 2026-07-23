@@ -1,6 +1,6 @@
 # app.louisplace.com
 
-[![Build and Deploy Pipeline](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml)
+[![CI](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml/badge.svg)](https://github.com/Louisp78/louisplace.com/actions/workflows/build_and_deploy.yml)
 
 A static blog about underwater robotics projects — a Next.js frontend with articles stored directly in the codebase, no backend or database.
 
@@ -47,9 +47,14 @@ Add a new JSON file under `client/src/features/post/data` following the shape de
 
 - If you want site-wide defaults for styling, check `client/src/app/globals.css`.
 
-## Deployment
+## CI / Deployment
 
-Deploys run from `.github/workflows/build_and_deploy.yml` on `workflow_dispatch`, or when a PR whose title contains `[BUILD]` is merged. The workflow needs these repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `SSH_PORT`. Optional repository variables `PUBLIC_BASE_URL` / `PUBLIC_URL` set the site's canonical URL for metadata (falls back to `http://localhost:3000`).
+The pipeline lives in `.github/workflows/build_and_deploy.yml`:
+
+- **Every pull request to `main`** runs lint, type-check, test and build — no deploy.
+- **Every push to `main`** runs the same checks and, only if they all pass, deploys: the exported `out/` is uploaded to the VPS and served by an `nginx:alpine` container on port 80 (HTTPS via Cloudflare).
+
+Required repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `SSH_PORT`. Optional repository variables `PUBLIC_BASE_URL` / `PUBLIC_URL` set the site's canonical URL for metadata (falls back to `http://localhost:3000`).
 
 ## Troubleshooting
 

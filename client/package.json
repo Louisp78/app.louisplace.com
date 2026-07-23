@@ -5,14 +5,14 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "typecheck": "tsc --noEmit",
     "lint": "next lint",
     "lint:fix": "pnpm run lint --fix",
     "prettier:check": "pnpm prettier -c src",
     "prettier:fix": "pnpm prettier -c -w src",
     "lint_format:check": "pnpm prettier:check && pnpm lint",
     "format": "pnpm run prettier:fix && pnpm run lint:fix",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
