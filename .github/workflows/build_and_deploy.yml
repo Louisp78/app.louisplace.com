@@ -114,9 +114,12 @@ jobs:
           rm: true
           overwrite: true
 
-      # Serve the static files with a tiny nginx container. The old container
-      # (and the previous next_app container) are killed first so port 80 is
-      # free; the new one is recreated every deploy to re-bind the fresh files.
+      # Serve the static files with a tiny nginx container. The VPS runs a
+      # native nginx reverse proxy on :80 (fronted by Cloudflare) that routes
+      # app.louisplace.com -> 127.0.0.1:3000, so the container publishes on host
+      # port 3000 rather than binding :80 directly. The old container (and the
+      # legacy next_app container) are removed first; the new one is recreated
+      # every deploy to re-bind the fresh files.
       - name: Serve on VPS
         uses: appleboy/ssh-action@v1
         with:
@@ -132,7 +135,7 @@ jobs:
             docker run -d \
               --name louisplace \
               --restart always \
-              -p 80:80 \
+              -p 3000:80 \
               -v "$HOME/app/out:/usr/share/nginx/html:ro" \
               nginx:alpine
             docker image prune -f

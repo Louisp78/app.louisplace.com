@@ -8,7 +8,7 @@ A static blog about underwater robotics projects — a Next.js frontend with art
 
 - Frontend: `client` (Next.js) — the entire site, built as a fully static export (`output: 'export'`)
 - Articles: JSON files under `client/src/features/post/data`
-- Deployment: GitHub Actions builds the static site, uploads the exported `out/` folder to the VPS over SSH, and serves it with a tiny `nginx:alpine` container on port 80 (HTTPS is terminated by Cloudflare). No repo, Node runtime, or database lives on the VPS.
+- Deployment: GitHub Actions builds the static site, uploads the exported `out/` folder to the VPS over SSH, and serves it with a tiny `nginx:alpine` container. The container publishes on host port 3000, behind the VPS's native nginx reverse proxy that routes `app.louisplace.com` to it (HTTPS is terminated by Cloudflare). No repo, Node runtime, or database lives on the VPS.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ Add a new JSON file under `client/src/features/post/data` following the shape de
 The pipeline lives in `.github/workflows/build_and_deploy.yml`:
 
 - **Every pull request to `main`** runs lint, type-check, test and build — no deploy.
-- **Every push to `main`** runs the same checks and, only if they all pass, deploys: the exported `out/` is uploaded to the VPS and served by an `nginx:alpine` container on port 80 (HTTPS via Cloudflare).
+- **Every push to `main`** runs the same checks and, only if they all pass, deploys: the exported `out/` is uploaded to the VPS and served by an `nginx:alpine` container on host port 3000, behind the native nginx reverse proxy that fronts `app.louisplace.com` (HTTPS via Cloudflare).
 
 Required repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_KEY`, `SSH_PORT`. Optional repository variables `PUBLIC_BASE_URL` / `PUBLIC_URL` set the site's canonical URL for metadata (falls back to `http://localhost:3000`).
 
