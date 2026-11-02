@@ -21,7 +21,12 @@ export default function AppBar({ locale, dict }: AppBarProps) {
 					<span className="hidden md:inline">{dict.brand.name}</span>
 				</span>
 			</TransitionLink>
-			<MobileNavMenu locale={locale} appBar={dict.appBar} github={dict.github} />
+			<MobileNavMenu
+				locale={locale}
+				appBar={dict.appBar}
+				github={dict.github}
+				scannerRoom={dict.scannerRoom}
+			/>
 			<div className="flex items-center gap-4 md:gap-6">
 				<span className="hidden md:inline">
 					<TransitionLink href={`/${locale}/about`}>
@@ -30,6 +35,15 @@ export default function AppBar({ locale, dict }: AppBarProps) {
 						</span>
 					</TransitionLink>
 				</span>
+				<a
+					className="group hidden items-center gap-1 text-gray-500 hover:text-gray-900 md:flex md:text-base dark:hover:text-white"
+					href={dict.scannerRoom.url}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{dict.scannerRoom.name}
+					<ArrowUpRight className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+				</a>
 				<LanguageSwitcher locale={locale} label={dict.languageSwitcher.label} />
 				<a
 					className="group hidden items-center gap-1.5 text-sm text-blue-700 md:flex md:text-base"

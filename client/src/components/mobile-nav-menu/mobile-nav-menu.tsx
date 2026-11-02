@@ -12,9 +12,10 @@ interface MobileNavMenuProps {
 	locale: Locale
 	appBar: Dictionary['appBar']
 	github: Dictionary['github']
+	scannerRoom: Dictionary['scannerRoom']
 }
 
-export default function MobileNavMenu({ locale, appBar, github }: MobileNavMenuProps) {
+export default function MobileNavMenu({ locale, appBar, github, scannerRoom }: MobileNavMenuProps) {
 	const dialogRef = useRef<HTMLDialogElement>(null)
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -71,6 +72,15 @@ export default function MobileNavMenu({ locale, appBar, github }: MobileNavMenuP
 								{appBar.about}
 							</span>
 						</TransitionLink>
+						<a
+							className="group flex items-center gap-1.5 font-[Syne] text-2xl font-bold text-[var(--foreground)]"
+							href={scannerRoom.url}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{scannerRoom.name}
+							<ArrowUpRight className="h-5 w-5 transition-transform duration-200 ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+						</a>
 						<a
 							className="group flex items-center gap-1.5 text-blue-700"
 							href={github.url}
