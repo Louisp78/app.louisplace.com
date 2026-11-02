@@ -46,6 +46,10 @@ export interface Dictionary {
 		url: string
 		iconAlt: string
 	}
+	scannerRoom: {
+		name: string
+		url: string
+	}
 	languageSwitcher: {
 		label: string
 	}

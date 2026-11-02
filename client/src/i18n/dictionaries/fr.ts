@@ -70,6 +70,10 @@ const fr: Dictionary = {
 		url: 'https://github.com/Louisp78/louisplace.com',
 		iconAlt: 'Logo GitHub',
 	},
+	scannerRoom: {
+		name: 'ScannerRoom',
+		url: 'https://scannerroom.louisplace.com',
+	},
 	languageSwitcher: {
 		label: 'Changer de langue',
 	},
